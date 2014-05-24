@@ -1,4 +1,4 @@
-﻿;
+;
 
 /**
  * @fileoverview This file contains all the js needed for the import page
