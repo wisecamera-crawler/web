@@ -1,0 +1,56 @@
+.loginwindow {
+	background-color: rgb(195,229,146);
+	border-radius: 10px;
+	left: 250px;
+	margin-top: 50px;
+	margin: 5px;
+	overflow: auto;
+	padding: 15px;
+	width: 300px;
+ }
+ 
+.login_small {
+	color: black;
+	font-size: 14px;
+	font-weight: bold;
+	line-height: 20px;
+ }
+ 
+.floatleftregion {float: left;}
+ 
+.floatleftcenter {width: 100%;}
+ 
+.floatmiddleregion {
+	float: left;
+	position: relative;
+ }
+ 
+.loginbutton {
+	background-color: #a2e35c;
+	border-radius: 5px;
+	height: 50px;
+	margin: 5px;
+	width: 60px;
+ }
+ 
+.googlelogin {
+	background-color: rgb(215,35,34);
+	border-radius: 5px;
+	height: 40px;
+	margin: 5px;
+	width: 100px;
+ }
+ 
+.middletext {
+	text-align: center;
+	width: 100%;
+ }
+ 
+	.middletext:hover {cursor: pointer;}
+ 
+.largertext {font-size: 22px;}
+ 
+.bluelargetext {
+	color: blue;
+	font-size: 200%;
+ }
