@@ -1,4 +1,4 @@
-﻿;
+;
 
 /**
  * @fileoverview This file contains all the js needed for the schedule page
@@ -137,8 +137,8 @@ function loadScheduleTable() {
         });
         if (confirm('確定刪除' + sch_string + ' 的排程內容?')) {
           $.ajax({
-            url: 'http://60.245.28.90/codeigniter/' +
-                'index.php/schedules/deleteschedule',
+            url: '../../' +
+                'schedules/deleteschedule',
             type: 'POST',
             data: {
               'schedule_id': scheduleId
@@ -199,8 +199,8 @@ $(document).ready(function() {
   var years = [];
   var classes = [];
   $.ajax({
-    url: 'http://60.245.28.90/codeigniter/' +
-        'index.php/projects/getvalidprojectyears',
+    url: '../../' +
+        'projects/getvalidprojectyears',
     type: 'GET',
     async: false,
     success: function(data) {
@@ -211,8 +211,8 @@ $(document).ready(function() {
     }
   }); //end of ajax
   $.ajax({
-    url: 'http://60.245.28.90/codeigniter/' +
-        'index.php/projects/getvalidprojecttypes',
+    url: '../../' +
+        'projects/getvalidprojecttypes',
     type: 'GET',
     async: false,
     success: function(data) {
