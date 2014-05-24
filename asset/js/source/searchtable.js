@@ -282,8 +282,8 @@ var projectStatus = {};
  */
 function loadStatusViewer(prj) {
   $.ajax({
-    url: 'http://60.245.28.90/codeigniter/' +
-        'index.php/projects/getstatusgraphdata',
+    url: '../../' +
+        'projects/getstatusgraphdata',
     type: 'POST',
     data: {
       'project_id': prj.project_id
@@ -650,8 +650,8 @@ var organizeddownloadsinglefiledata = {};
 function loaddownloadviewer(prj) {
   //ajax and find the historical data of the project
   $.ajax({
-    url: 'http://60.245.28.90/codeigniter/' +
-        'index.php/projects/getdownloadgraphdata',
+    url: '../../' +
+        'projects/getdownloadgraphdata',
     type: 'POST',
     data: {
       'project_id': prj.project_id
@@ -891,8 +891,8 @@ function loadvcsviewer(prj) {
 
   /* parse vcs commiter data and put into organized form*/
   $.ajax({
-    url: 'http://60.245.28.90/codeigniter/' +
-        'index.php/projects/getvcscommitergraphdata',
+    url: '../../' +
+        'projects/getvcscommitergraphdata',
     type: 'POST',
     data: {
       'project_id': prj.project_id
@@ -1090,8 +1090,8 @@ function loadwikiviewer(prj) {
     }
   });
   $.ajax({
-    url: 'http://60.245.28.90/codeigniter/' +
-        'index.php/projects/getwikigraphsinglethreaddata',
+    url: '../../' +
+        'projects/getwikigraphsinglethreaddata',
     type: 'POST',
     data: {
       'project_id': prj.project_id

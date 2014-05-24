@@ -1,10 +1,6 @@
-<html>
-<head>
-<title><?php echo $title;?></title>
-</head>
-<body>
 
-<div style = 'float:left;width:35%'>
+
+<div class='floatleftwidth35'>
 <div class='greenwindow'>
 <table class="fancytable" border="1"id="proxylist"   align="left"  class="fancytable">
    <tbody>
@@ -17,7 +13,7 @@
 </div>
 
 
-<div style='float: left;width:65%;'>
+<div class='floatleftwidth65height'>
 <div class='greenwindowscroll'>
 <table class="fancytable" border="1"id="prjEditLog"  class="fancytable" align="center">
    <tbody>
@@ -27,103 +23,8 @@
 <div>
 <div>
 
-<script>
+<script type="text/javascript" src="<?php echo base_url();?>asset/js/source/deployLog.js"></script>
 
-$("#btuProxyList").click(function(){
-	var cbxVehicle = {};
-	$('input:checkbox[name="proxyEnable"]').each(
-	function(i) { 
-		if(this.checked){
-		cbxVehicle[i] = 1; 
-		}else{
-		cbxVehicle[i] = 0; 
-		}
-	});
-
-
-	$.ajax({
-		url: "<?php echo base_url();?>index.php/proxy/work",
-		type:'POST',               
-		data: {account:cbxVehicle},
-		error:function(){alert('Ajax request');},
-		success: function(res){
-//			alert('Ajax success!');		
-
-//			alert(res);	
-		location.reload();
-
-		}		
-	});	
-
-
-
-});
-
-$(document).ready(function(){
-		$.post("<?php echo base_url();?>index.php/proxy/getProxyList",
-			{
-
-
-
-			},
-			function(data,status){
-			if(status='success'){
-
-			for(var i=0; i<data.length;i++){	
-			//			alert( data[i].user_id );
-
-			if(data[i].status == "disable"){
-			var chkStr = "<input type='checkbox' name='proxyEnable' value='"+data[i].proxy_ip+"' checkede='false'>";
-			}else{
-			var chkStr = "<input type='checkbox' name='proxyEnable' value='"+data[i].proxy_ip+"' checked='true'>";
-			}
-			$("#proxylist").append("<tr>" +
-				"<td>" + (i+1)  + "</td>" +
-				"<td>" + data[i].proxy_ip   + "</td>" +
-				"<td>" + data[i].status  + "</td>" +
-				"<td>" + chkStr + "</td>" +
-				"</tr>");
-			}
-			}else{
-				alert("sth wrong");
-			}
-
-
-
-			});
-
-		$.post("<?php echo base_url();?>index.php/log/deploy",
-				{
-
-				},
-				function(data,status){
-				if(status='success'){
-
-				for(var i=0; i<data.length;i++){
-				//                      alert( data[i].user_id );
-				$("#prjEditLog").append("<tr>" +
-					"<td>" + data[i].timestamp   + "</td>" +
-					"<td>" + data[i].ip   + "</td>" +
-					"<td>" + data[i].action + "</td>" +
-					"</tr>");
-
-				}
-
-				}else{
-				alert("sth wrong");
-				}
-				});
-
-
-
-});
-
-
-
-
-
-
-</script>
 
 </body>
 </html>

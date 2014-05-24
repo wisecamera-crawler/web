@@ -559,8 +559,8 @@ function renderprojecttable(projects) {
     }, function(event) {
       if (confirm('確定要刪除' + projects[event.data.value].project_id + '專案?')) {
         $.ajax({
-          url: 'http://60.245.28.90/codeigniter/' +
-              'index.php/projects/deleteproject',
+          url: '../../' +
+              'projects/deleteproject',
           type: 'POST',
           data: {
             project_id: projects[event.data.value].project_id
@@ -588,8 +588,8 @@ function renderprojecttable(projects) {
     }, function(event) {
 
       $.ajax({
-        url: 'http://60.245.28.90/codeigniter/' +
-            'index.php/projects/getprojectmodificationhistory',
+        url: '../../' +
+            'projects/getprojectmodificationhistory',
         type: 'POST',
         data: {
           project_id: projects[event.data.value].project_id

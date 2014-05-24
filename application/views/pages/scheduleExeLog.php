@@ -1,10 +1,6 @@
-<html>
-<head>
-<title><?php echo $title;?></title>
-</head>
-<body>
 
-<div style='float: left;width:100%;'>
+
+<div class='floatleftfullwidth'>
 <div class='greenwindowscroll'>
 <table class="fancytable" border="1"id="scheduleExeLog"  align="center">
    <tbody>
@@ -14,43 +10,8 @@
 <div>
 <div>
 
-<script>
-$(document).ready(function(){
-		
-		$.post("<?php echo base_url();?>index.php/log/scheduleExe",
-				{
 
-				},
-				function(data,status){
-				if(status='success'){
-
-				for(var i=0; i<data.length;i++){
-				//                      alert( data[i].user_id );
-				$("#scheduleExeLog").append("<tr>" +
-					"<td>" + data[i].prjID   + "</td>" +
-					"<td>" + data[i].prjName   + "</td>" +
-					"<td>" + data[i].prjExeST   + "</td>" +
-					"<td>" + data[i].prjExeResult + "</td>" +
-					"<td>" + data[i].prjExeResultA + "</td>" +
-					"<td>" + data[i].prjExeET + "</td>" +
-					"</tr>");
-
-				}
-				}else{
-				alert("sth wrong");
-				}
-				});
-
-
-
-});
-
-
-
-
-
-
-</script>
+<script type="text/javascript" src="<?php echo base_url(); ?>/asset/js/source/scheduleExeLog.js"></script>
 
 </body>
 </html>
