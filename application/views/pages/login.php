@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html"; charset="utf-8" />
@@ -39,10 +39,10 @@
 			</div>
 		</div>
 		<div id="registerwindow" hidden>
-			<span>輸入帳號<input id="registeraccount" type="text" size="30"></input></span>
-			<span>輸入密碼<input id="registerpw" type="password" size="64"/></span>
-			<span>重新輸入密碼<input id="registerpwconfirm" type="password" size="64"/></span>
-			<span>輸入信箱<input id="registeremail" type="text" size="30"/></span>
+			<span>輸入帳號<input id="registeraccount" type="text" maxlength="30"></input></span>
+			<span>輸入密碼<input id="registerpw" type="password" maxlength="64"/></span>
+			<span>重新輸入密碼<input id="registerpwconfirm" type="password" maxlength="64"/></span>
+			<span>輸入信箱<input id="registeremail" type="text" maxlength="30"/></span>
 			<button onclick="return submitregister();">註冊</button>
 		</div>
 		
