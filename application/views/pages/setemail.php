@@ -27,4 +27,4 @@
     </table>
   </div>
 </center>
-<script type="text/javascript" src="<?php echo base_url();?>asset/js/email.js"></script>
+<script src="<?php echo base_url();?>asset/js/email.js"></script>

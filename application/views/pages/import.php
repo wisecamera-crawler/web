@@ -95,4 +95,4 @@
 </div>
 <div id="querywindow" hidden>
 </div>
-<script type="text/javascript" src="<?php echo base_url();?>asset/js/import.js"></script>
+<script src="<?php echo base_url();?>asset/js/import.js"></script>

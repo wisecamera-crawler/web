@@ -234,4 +234,4 @@
   <div id="columnselectwindow">
 
   </div>
-  <script type="text/javascript" src="<?php echo base_url();?>asset/js/searchtable.js"></script>
+  <script src="<?php echo base_url();?>asset/js/searchtable.js"></script>

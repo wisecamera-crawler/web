@@ -3,7 +3,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html"; charset="utf-8" />
 	<title>NSC</title>
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 	<script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 	<link rel="stylesheet" href="<?php echo base_url();?>asset/css/Prj1.css" />
@@ -51,6 +51,6 @@
 			<button onclick="return submitforgotpw();">將密碼寄到信箱</button>
 		</div>
 	</center>
-	<script type="text/javascript" src="<?php echo base_url();?>asset/js/login.js"></script>
+	<script src="<?php echo base_url();?>asset/js/login.js"></script>
 </body>
 </html>
