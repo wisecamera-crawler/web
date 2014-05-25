@@ -1,0 +1,1 @@
+$(document).ready(function(){$.post("../../log/scheduleExe",{},function(b,c){for(var a=0;a<b.length;a++)$("#scheduleExeLog").append("<tr><td>"+b[a].prjID+"</td><td>"+b[a].prjName+"</td><td>"+b[a].prjExeST+"</td><td>"+b[a].prjExeResult+"</td><td>"+b[a].prjExeResultA+"</td><td>"+b[a].prjExeET+"</td></tr>")})});
