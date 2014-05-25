@@ -159,6 +159,25 @@ class Log extends CI_Controller
         header("Content-type: application/json");
 
         $query = $this->db->query(
+		"SELECT c.project_id, p.name, c.starttime, c.status, c.wiki,
+                 c.vcs, c.issue,c.download,  c.endtime FROM crawl_status c,
+                 project p WHERE c.project_id = p.project_id GROUP BY
+                 c.starttime ASC"
+        );
+        $result = $query->result_array();
+
+        for ($a=0; $a < sizeof($result); $a++) {
+            $arrangedData[$a]["prjID"]=$result[$a]["project_id"];
+            $arrangedData[$a]["prjName"]=$result[$a]["name"];
+            $arrangedData[$a]["prjExeST"]=$result[$a]["starttime"];
+            $arrangedData[$a]["prjExeResult"]=$result[$a]["status"];
+            $arrangedData[$a]["prjExeResultA"]=$result[$a]["wiki"];
+            $arrangedData[$a]["prjExeET"]=$result[$a]["endtime"];
+        }
+        $data=$arrangedData;
+        echo json_encode($data);
+/*
+        $query = $this->db->query(
             "SELECT `timestamp`, `user_id`,`ip`,`action` 
             FROM `log` WHERE `type`='schedule' ORDER BY `timestamp` ASC"
         );
@@ -181,6 +200,7 @@ class Log extends CI_Controller
         }
         $data=$arrangedData;
         echo json_encode($data);
+*/
     }
 	/**
      * get logs related searching
