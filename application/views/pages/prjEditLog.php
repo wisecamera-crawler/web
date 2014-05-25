@@ -28,6 +28,6 @@
 </div>
 
 
-<script src="<?php echo base_url();?>asset/js/source/prjEditLog.js"></script>
+<script src="<?php echo base_url();?>asset/js/prjEditLog.js"></script>
 
 

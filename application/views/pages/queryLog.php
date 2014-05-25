@@ -28,4 +28,4 @@
 </div>
 
 
-<script src="<?php echo base_url(); ?>/asset/js/source/queryLog.js"></script>
+<script src="<?php echo base_url(); ?>/asset/js/queryLog.js"></script>

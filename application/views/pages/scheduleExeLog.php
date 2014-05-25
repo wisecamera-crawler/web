@@ -16,5 +16,5 @@
 </div>
 
 
-<script src="<?php echo base_url(); ?>/asset/js/source/scheduleExeLog.js"></script>
+<script src="<?php echo base_url(); ?>/asset/js/scheduleExeLog.js"></script>
 

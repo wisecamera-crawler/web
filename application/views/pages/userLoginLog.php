@@ -28,6 +28,6 @@
 </div>
 
 
-<script src="<?php echo base_url();?>asset/js/source/userLoginLog.js"></script>
+<script src="<?php echo base_url();?>asset/js/userLoginLog.js"></script>
 
 

@@ -30,5 +30,5 @@
   </div>
 </div>
 
-<script src="<?php echo base_url();?>asset/js/source/deployLog.js"></script>
+<script src="<?php echo base_url();?>asset/js/deployLog.js"></script>
 
