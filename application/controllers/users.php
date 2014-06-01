@@ -62,6 +62,47 @@ class Users extends CI_Controller
         header('Location: '.base_url().'index.php/pages/view/login');
     }
     /**
+     * Users resetWithHash
+     * 
+     * This function will check if the user entered hash matches the one
+     * in the database. If so it will replace the password for the user.
+     *
+     * @return none
+     * @author Kai Yuen <keeperkai@msn.com>
+     * @version 1.0
+     */
+    public function resetWithHash()
+    {
+        
+        $hash = $this->session->userdata('hash');
+        $account = $this->session->userdata('account');
+        $password = $this->session->userdata('password');
+        $query = $this->db->get_where('user', array('user_id'=>$account, 'password'=>$hash));
+        $result = $query->result_array();
+        $status = 'success';
+        $data = '';
+        if (sizeof($result) === 0) {
+            $status = 'fail';
+            $data = '帳號或者hash錯誤';
+        } elseif ($password === '') {
+            $status = 'fail';
+            $data = '密碼不可為空';
+        } else {
+            include 'hashsalt.php';
+            $dbresult = $this->db->update(
+                'user',
+                array('password'=>create_hash($password)),
+                array('user_id'=>$account)
+            );
+            if (!$dbresult) {
+                $status = 'fail';
+                $data = '資料庫錯誤';
+            }
+        }
+        header("Content-type: application/json");
+        echo json_encode(array('status'=>$status, 'data'=>$data));
+    }
+    /**
      * Users login
      * 
      * This function will login a user and put their account name into the session
@@ -75,8 +116,10 @@ class Users extends CI_Controller
      */
     public function login()
     {
+        include 'hashsalt.php';
         $msg;
         $userid;
+        $hashinfo;
         $this->session->unset_userdata('ACCOUNT');
         $account = $this->input->post("account");
         $password = $this->input->post("password");
@@ -84,7 +127,6 @@ class Users extends CI_Controller
             'user',
             array(
                 'user_id'=>$account,
-                'password'=>$password,
                 'isGoogleLogin'=>0
             )
         );
@@ -94,8 +136,9 @@ class Users extends CI_Controller
             $msg['type'] = 'Account or password error';
         } else {
             $userid = $result[0]["user_id"];
+            $hashinfo = $result[0]["password"];
         }
-        if (isset($userid)) {
+        if (isset($userid)&&(validate_password($password, $hashinfo))) {
             $session_data = array('ACCOUNT' => "$userid");
             $this->session->set_userdata($session_data);
         }
@@ -171,6 +214,7 @@ class Users extends CI_Controller
      */
     public function register()
     {
+        include 'hashsalt.php';
         $account = $this->input->post('account');
         $password = $this->input->post('password');
         $confirm = $this->input->post('confirm');
@@ -207,10 +251,8 @@ class Users extends CI_Controller
             echo json_encode($response);
             return;
         }
-        $this->db->query(
-            "INSERT INTO `user` (`user_id`, `password`, `email`)
-            VALUES ('$account','$password','$email');"
-        );
+        $password = create_hash($password);
+        $this->db->insert('user', array('user_id'=>$account, 'password'=>$password, 'email'=>$email));
         $query = $this->db->query(
             "SELECT * FROM `user` WHERE  `user_id` = '$account'"
         );

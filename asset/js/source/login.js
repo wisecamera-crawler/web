@@ -61,8 +61,34 @@ function submitforgotpw() {
   function(data, status) {
     if (status == 'success') {
       if (data.status == 'success') {
-        $('#registerwindow').dialog('close');
-        alert('已經將密碼寄到該帳號綁定之信箱');
+        alert('已經將Hash寄到該帳號綁定之信箱，請將Hash複製到下面的欄位，並且設定新密碼');
+      } else {
+        alert(data.data);
+      }
+    } else {
+      alert('連線失敗');
+    }
+  });
+
+}
+
+
+/**
+ * This function will submit the user input data for retrieving their account
+ * to the server using ajax post. If it succeeds, an e-mail will be sent to
+ * their registered e-mail account.
+ */
+function resetwithhash() {
+  $.post('../../users/resetwithhash', {
+    account: $('#forgotpwaccount').val(),
+    hash: $('#forgotpwhash').val(),
+    password: $('#forgotpwnewpass').val()
+  },
+  function(data, status) {
+    if (status == 'success') {
+      if (data.status == 'success') {
+        $('#forgotpwwindow').dialog('close');
+        alert('已經將密碼重設，請按照正常程序登入');
       } else {
         alert(data.data);
       }

@@ -48,7 +48,15 @@
 		
 		<div id="forgotpwwindow" hidden>
 			<span>輸入帳號<input id="forgotpwaccount" type="text"></input></span>
-			<button onclick="return submitforgotpw();">將密碼寄到信箱</button>
+			<button onclick="return submitforgotpw();">將Hash寄到信箱</button>
+			<br>
+			<span>
+			輸入信箱內的Hash
+			<input id="forgotpwhash" type="text"></input>
+			設定新密碼
+			<input id="forgotpwnewpass" type="password"></input>
+			<button onclick="return resetwithhash();">重設密碼</button>
+			</span>
 		</div>
 	</center>
 	<script src="<?php echo base_url();?>asset/js/login.js"></script>
