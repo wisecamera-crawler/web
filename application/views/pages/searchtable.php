@@ -31,7 +31,6 @@
           <button id="selectcolumnbutton" onclick="selectColumn();">選擇欄位</button>
         </td>
       </tr>
-
     </table>
   </div>
 </center>

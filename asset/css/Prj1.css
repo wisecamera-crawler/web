@@ -1,7 +1,7 @@
 html, body {
   height: 100%;
   background-image: linear-gradient(rgb(213,240,149) 0, rgb(230,250,241) 120%);
-  font-size: 1.2em;
+  font-size: 1em;
 }
 
 #customBtn {
@@ -81,11 +81,17 @@ html, body {
 .displayoptions {
   float: right;
 }
+
 /* table related styles */
 .fancytable {
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
   width: 100%;
   border-collapse: collapse;
+}
+
+.floatheader {
+  position: fixed;
+  top: 0;
 }
 
 .fancytable td, .fancytable th {
@@ -194,15 +200,12 @@ html, body {
 }
 /*green layouts*/
 .greenwindow {
-  overflow: auto;
   background-color: rgb(195,229,146);
   border-radius: 10px;
   margin: 5px;
 }
 
 .greenwindowscroll {
-  height: 80%;
-  overflow: auto;
   background-color: rgb(195,229,146);
   border-radius: 10px;
   margin: 5px;
