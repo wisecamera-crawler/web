@@ -22,7 +22,7 @@ function updateHeaders() {
         floatingHeader.find('th').each(function() {
           var targetWidth = widtharr[idx++];
 
-          $(this).css('width', targetWidth);
+          $(this).css('width', (parseInt(targetWidth.replace('px', ''))+1)+'px');
           var headerIndex = $(this).index();
 
           if (secondrow.length > 0) {

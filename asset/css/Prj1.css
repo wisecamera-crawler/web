@@ -1,7 +1,7 @@
 html, body {
   height: 100%;
   background-image: linear-gradient(rgb(213,240,149) 0, rgb(230,250,241) 120%);
-  font-size: 1em;
+  font-size: 1.2em;
 }
 
 #customBtn {
@@ -84,6 +84,8 @@ html, body {
 
 /* table related styles */
 .fancytable {
+  table-layout: fixed;
+  word-break:break-all;
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
   width: 100%;
   border-collapse: collapse;
@@ -105,7 +107,7 @@ html, body {
 }
 
 .fancytable th {
-  font-size: 1.4em;
+  font-size: 1.2em;
   text-align: left;
   padding-top: 5px;
   padding-bottom: 4px;
