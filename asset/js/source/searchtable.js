@@ -1,5 +1,3 @@
-;
-
 /**
  * @fileoverview This file contains all the js needed for the searchtable page
  */
@@ -211,9 +209,10 @@ function sortprojects(obj, projects) {
  * @param {string} ylabel The label displayed on the Y-axis of the graph
  * @param {string} data The data array that is going to be rendered.
  * @param {string} maxshow a string integer, only the last maxshow datas
+ * @param {string} chartTitle the title of the chart.
  * will be plotted on the graph.
  */
-function plottrendgraph(id, xlabel, ylabel, data, maxshow) {
+function plottrendgraph(id, xlabel, ylabel, data, maxshow, chartTitle) {
   if (data == undefined) {
     alert('此專案尚無資料');
     return;
@@ -242,7 +241,7 @@ function plottrendgraph(id, xlabel, ylabel, data, maxshow) {
 
 
   var plot1 = $.jqplot(id, [data], {
-    title: 'VCS圖表',
+    title: chartTitle,
     axes: {
       xaxis: {
         renderer: $.jqplot.DateAxisRenderer,
@@ -753,14 +752,14 @@ function plotdownloadviewer() {
       line.push([downloaddata[i].timestamp, downloaddata[i].totalfiles]);
     }
     plottrendgraph('downloadgraph', '日期', '總檔案數', line, $(
-        '#downloadviewer .numdatas :selected').val());
+        '#downloadviewer .numdatas :selected').val(), 'Download 圖表');
   } else if (dt == 'totaldownloads') {
     var line = [];
     for (var i = 0; i < downloaddata.length; ++i) {
       line.push([downloaddata[i].timestamp, downloaddata[i].totaldownloads]);
     }
     plottrendgraph('downloadgraph', '日期', '總下載次數', line, $(
-        '#downloadviewer .numdatas :selected').val());
+        '#downloadviewer .numdatas :selected').val(), 'Download 圖表');
 
   } else if (dt == 'singledownloads') {
     var threadname = $('#downloadviewer')
@@ -773,7 +772,7 @@ function plotdownloadviewer() {
       ]);
     }
     plottrendgraph('downloadgraph', '日期', '單一檔案下載次數', line, $(
-        '#downloadviewer .numdatas :selected').val());
+        '#downloadviewer .numdatas :selected').val(), 'Download 圖表');
   }
 
 }
@@ -838,7 +837,7 @@ function plotissuetrackerviewer() {
       line.push([issuetrackerdata[i].timestamp, issuetrackerdata[i].topic]);
     }
     plottrendgraph('issuetrackergraph', '日期', '主題總數', line, $(
-        '#issuetrackerviewer .numdatas :selected').val());
+        '#issuetrackerviewer .numdatas :selected').val(), 'Issue Tracker 圖表');
 
   } else if (dt == 'totalreplies') {
     var line = [];
@@ -846,14 +845,14 @@ function plotissuetrackerviewer() {
       line.push([issuetrackerdata[i].timestamp, issuetrackerdata[i].article]);
     }
     plottrendgraph('issuetrackergraph', '日期', '回應總數', line, $(
-        '#issuetrackerviewer .numdatas :selected').val());
+        '#issuetrackerviewer .numdatas :selected').val(), 'Issue Tracker 圖表');
   } else if (dt == 'totalaccounts') {
     var line = [];
     for (var i = 0; i < issuetrackerdata.length; ++i) {
       line.push([issuetrackerdata[i].timestamp, issuetrackerdata[i].account]);
     }
     plottrendgraph('issuetrackergraph', '日期', '不同帳號總數', line, $(
-        '#issuetrackerviewer .numdatas :selected').val());
+        '#issuetrackerviewer .numdatas :selected').val(), 'Issue Tracker 圖表');
 
   }
 }
@@ -968,7 +967,7 @@ function plotvcsviewer() {
       line.push([vcsdata[i].timestamp, vcsdata[i].commit]);
     }
     plottrendgraph('vcsgraph', '日期', '總commit數', line, $(
-        '#vcsviewer .numdatas :selected').val());
+        '#vcsviewer .numdatas :selected').val(), 'VCS 圖表');
 
   } else if (dt == 'totallines') {
     var line = [];
@@ -976,14 +975,14 @@ function plotvcsviewer() {
       line.push([vcsdata[i].timestamp, vcsdata[i].line]);
     }
     plottrendgraph('vcsgraph', '日期', '總行數', line, $(
-        '#vcsviewer .numdatas :selected').val());
+        '#vcsviewer .numdatas :selected').val(), 'VCS 圖表');
   } else if (dt == 'totalfiles') {
     var line = [];
     for (var i = 0; i < vcsdata.length; ++i) {
       line.push([vcsdata[i].timestamp, vcsdata[i].file]);
     }
     plottrendgraph('vcsgraph', '日期', '總檔案數', line, $(
-        '#vcsviewer .numdatas :selected').val());
+        '#vcsviewer .numdatas :selected').val(), 'VCS 圖表');
 
   } else if (dt == 'totalfilesize') {
     var line = [];
@@ -991,14 +990,14 @@ function plotvcsviewer() {
       line.push([vcsdata[i].timestamp, vcsdata[i].size]);
     }
     plottrendgraph('vcsgraph', '日期', '總檔案大小(KB)', line, $(
-        '#vcsviewer .numdatas :selected').val());
+        '#vcsviewer .numdatas :selected').val(), 'VCS 圖表');
   } else if (dt == 'totalusers') {
     var line = [];
     for (var i = 0; i < vcsdata.length; ++i) {
       line.push([vcsdata[i].timestamp, vcsdata[i].user]);
     }
     plottrendgraph('vcsgraph', '日期', '總貢獻者數', line, $(
-        '#vcsviewer .numdatas :selected').val());
+        '#vcsviewer .numdatas :selected').val(), 'VCS 圖表');
   } else if (dt == 'usercontribution') {
     var displaytimestamp = $('#vcsviewer').find('.datelist :selected').val();
     var addline = [];
@@ -1168,14 +1167,14 @@ function plotwikiviewer() {
       line.push([wikidata[i].timestamp, wikidata[i].pages]);
     }
     plottrendgraph('wikigraph', '日期', '總篇數', line, $(
-        '#wikiviewer .numdatas :selected').val());
+        '#wikiviewer .numdatas :selected').val(), 'Wiki 圖表');
   } else if (dt == 'totallines') {
     var line = [];
     for (var i = 0; i < wikidata.length; ++i) {
       line.push([wikidata[i].timestamp, wikidata[i].line]);
     }
     plottrendgraph('wikigraph', '日期', '總行數', line, $(
-        '#wikiviewer .numdatas :selected').val());
+        '#wikiviewer .numdatas :selected').val(), 'Wiki 圖表');
 
   } else if (dt == 'totalupdates') {
     var line = [];
@@ -1183,7 +1182,7 @@ function plotwikiviewer() {
       line.push([wikidata[i].timestamp, wikidata[i].update]);
     }
     plottrendgraph('wikigraph', '日期', '總更新數', line, $(
-        '#wikiviewer .numdatas :selected').val());
+        '#wikiviewer .numdatas :selected').val(), 'Wiki 圖表');
   } else if (dt == 'singlethreadlines') {
     var threadname = $('#wikiviewer').find('.threadnamelist :selected').val();
     var line = [];
@@ -1193,7 +1192,7 @@ function plotwikiviewer() {
       ]);
     }
     plottrendgraph('wikigraph', '日期', '單一篇行數', line, $(
-        '#wikiviewer .numdatas :selected').val());
+        '#wikiviewer .numdatas :selected').val(), 'Wiki 圖表');
   } else if (dt == 'singlethreadupdates') {
     var threadname = $('#wikiviewer').find('.threadnamelist :selected').val();
     var line = [];
@@ -1203,7 +1202,7 @@ function plotwikiviewer() {
       ]);
     }
     plottrendgraph('wikigraph', '日期', '單一篇更新數', line, $(
-        '#wikiviewer .numdatas :selected').val());
+        '#wikiviewer .numdatas :selected').val(), 'Wiki 圖表');
   }
 }
 
