@@ -88,7 +88,7 @@ class Users extends CI_Controller
             $status = 'fail';
             $data = '密碼不可為空';
         } else {
-            include 'hashsalt.php';
+            $this->load->helper('hashsalt');
             $dbresult = $this->db->update(
                 'user',
                 array('password'=>create_hash($password)),
@@ -116,7 +116,7 @@ class Users extends CI_Controller
      */
     public function login()
     {
-        include 'hashsalt.php';
+        $this->load->helper('hashsalt');
         $msg;
         $userid;
         $hashinfo;
@@ -214,7 +214,7 @@ class Users extends CI_Controller
      */
     public function register()
     {
-        include 'hashsalt.php';
+        $this->load->helper('hashsalt');
         $account = $this->input->post('account');
         $password = $this->input->post('password');
         $confirm = $this->input->post('confirm');
