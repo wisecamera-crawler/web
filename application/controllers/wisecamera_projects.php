@@ -26,7 +26,7 @@
  * @package  Wisecamera
  * @author   Kai Yuen <keeperkai@msn.com>
  */
-class Wisecamera_Projects extends CI_Controller
+class Wisecamera_Projects extends Wisecamera_CheckUser
 {
     /**
      * Constructor

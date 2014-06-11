@@ -38,19 +38,22 @@ class Wisecamera_CheckUser extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $userid = sessionValid();
+        //echo '111111';
+        $userid = $this->sessionValid();
         if ($userid) {
             $this->load->model('wisecamera_logmodel', 'logModel');
             $this->logModel->extendUserLogin($userid);
+            //echo '22222222';
         } else {
             $response = array
-                (
-                    'status'=>'fail',
-                    'errorMessage'=>'Please login to the system',
-                    'data'=>'Please login to the system'
-                );
-            header("Content-type: application/json");
+            (
+                'status'=>'fail',
+                'errorMessage'=>'Please login.',
+                'data'=>'Please login.'
+            );
+            header('Content-Type: application/json');
             echo json_encode($response);
+            exit();
         }
     }
     /**
@@ -65,10 +68,13 @@ class Wisecamera_CheckUser extends CI_Controller
      * @author Kai Yuen <keeperkai@msn.com>
      * @version 1.0
      */
-    public function sessionValid()
+    private function sessionValid()
     {
         $user_id = $this->session->userdata('ACCOUNT');
-        if($user_id===0||(!$user_id)) return false;
-        else return $user_id;
+        if ($user_id===0||(!$user_id)) {
+            return false;
+        } else {
+            return $user_id;
+        }
     }
 }

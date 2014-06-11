@@ -13,7 +13,7 @@
  * @version  GIT: <git_id>
  * @link     none
  */
-class Wisecamera_Log extends CI_Controller
+class Wisecamera_Log extends Wisecamera_CheckUser
 {
 	/**
      * Obtain user list
