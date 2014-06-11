@@ -44,7 +44,15 @@ $route['users/test'] = 'users/test';
 $route['users/(:any)'] = 'users/$1';
 $route['default_controller'] = 'pages/view';
 */
-$route['default_controller'] = "pages/view/login";
+$route['default_controller'] = "wisecamera_pages/view/login";
+$route['pages/view/(:any)'] = "wisecamera_pages/view/$1";
+$route['projects/(:any)'] = "wisecamera_projects/$1";
+$route['log/(:any)'] = "wisecamera_log/$1";
+$route['proxy/(:any)/(:any)'] = "wisecamera_proxy/$1/$2";
+$route['proxy/(:any)'] = "wisecamera_proxy/$1";
+$route['schedules/(:any)'] = "wisecamera_schedules/$1";
+$route['email/(:any)'] = "wisecamera_email/$1";
+$route['users/(:any)'] = "wisecamera_users/$1";
 $route['404_override'] = '';
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
