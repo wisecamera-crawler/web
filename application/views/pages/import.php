@@ -53,11 +53,11 @@
       <center>
         <span>
           年度:<input type = "text" id="newprojyear" maxlength="11"></input>
-          類別:<input type = "text" id="newprojclass" maxlength="10"></input>
+          類別:<input type = "text" id="newprojclass" maxlength="16"></input>
           代碼:<input type = "text" id="newprojid" maxlength="32"></input>
-          專案名稱:<input type = "text" id="newprojname" maxlength="50"></input>
-          主持人:<input type = "text" id="newprojleader" maxlength="30"></input>
-          平台/網址:<input type = "text" id="newprojplatform" class="twohundredpixelwidth" maxlength="100"></input>
+          專案名稱:<input type = "text" id="newprojname" maxlength="64"></input>
+          主持人:<input type = "text" id="newprojleader" maxlength="32"></input>
+          平台/網址:<input type = "text" id="newprojplatform" class="twohundredpixelwidth" maxlength="128"></input>
         </span>
       </center>
       <center>
@@ -70,11 +70,11 @@
       <center>
         <span>
           年度:<input type = "text" id="modprojyear"  maxlength="11"></input>
-          類別:<input type = "text" id="modprojclass"  maxlength="10"></input>
+          類別:<input type = "text" id="modprojclass"  maxlength="16"></input>
           代碼:<input type = "text" id="modprojid" readonly></input>
-          專案名稱:<input type = "text" id="modprojname"  maxlength="50"></input>
-          主持人:<input type = "text" id="modprojleader"  maxlength="30"></input>
-          平台/網址:<input type = "text" id="modprojplatform" class="twohundredpixelwidth"  maxlength="100"></input>
+          專案名稱:<input type = "text" id="modprojname"  maxlength="64"></input>
+          主持人:<input type = "text" id="modprojleader"  maxlength="32"></input>
+          平台/網址:<input type = "text" id="modprojplatform" class="twohundredpixelwidth"  maxlength="128"></input>
         </span>
       </center>
       <center>
