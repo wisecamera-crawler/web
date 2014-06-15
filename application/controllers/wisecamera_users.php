@@ -74,9 +74,9 @@ class Wisecamera_Users extends CI_Controller
     public function resetWithHash()
     {
         
-        $hash = $this->session->userdata('hash');
-        $account = $this->session->userdata('account');
-        $password = $this->session->userdata('password');
+        $hash = $this->input->post('hash');
+        $account = $this->input->post('account');
+        $password = $this->input->post('password');
         $query = $this->db->get_where('user', array('user_id'=>$account, 'password'=>$hash));
         $result = $query->result_array();
         $status = 'success';
@@ -87,6 +87,9 @@ class Wisecamera_Users extends CI_Controller
         } elseif ($password === '') {
             $status = 'fail';
             $data = '密碼不可為空';
+        } elseif ((!$password) || (!$account) || (!$hash)) {
+            $status = 'fail';
+            $data = '資料不可為空';
         } else {
             $this->load->helper('hashsalt');
             $dbresult = $this->db->update(
@@ -229,6 +232,19 @@ class Wisecamera_Users extends CI_Controller
             $response['data'] = '已經有人使用'.$account.'這個帳號名稱.';
             $response['status'] = 'error';
         }
+        //check if email is already in use
+        $query = $this->db->get_where(
+            'user',
+            array(
+                'email' => $email,
+                'isGoogleLogin'=>0
+            )
+        );
+        $result = $query->result_array();
+        if (sizeof($result)!=0) {
+            $response['data'] = '已經有人使用'.$email.'這個信箱.';
+            $response['status'] = 'error';
+        }
         //check if the password matches confirm
         if ($password!=$confirm) {
             $response['data'] .= '密碼與確認密碼不符.';
@@ -294,24 +310,29 @@ class Wisecamera_Users extends CI_Controller
         if (sizeof($result)!=0) {
             $password = $result[0]['password'];
             $email = $result[0]['email'];
-            $msg = '<html><head></head><body>你的NSC帳號為： '
-                .$account.'<br>你的NSC密碼為： '
-                .$password.'</body></html>';
-            $this->load->library('email');
-            $config['protocol'] = 'sendmail';
-            $config['mailpath'] = '/usr/sbin/sendmail';
-            $config['charset'] = 'big5';
-            $config['wordwrap'] = true;
-            $config['mailtype'] = 'html';
-            $this->email->initialize($config);
+            $msg = '你的NSC帳號為： '.$account.PHP_EOL
+                .'你的NSC Hash為： '.$password;
+            $config = array(
+                'protocol' => 'smtp',
+                'smtp_host' => 'smtp.live.com',
+                'smtp_port' => 587,
+                'smtp_crypto' => 'tls',
+                'smtp_user' => 'nscsystemnoreply@outlook.com',
+                'smtp_pass' => 'openfoundry123',
+                'mailtype'  => 'text',
+                'charset'   => 'utf-8'
+            );
+            $this->load->library('email', $config);
+            $this->email->set_newline("\r\n");
+            // Set to, from, message, etc.
             $this->email->from(
-                'dontreply@ubuntu12004.iis.sinica.edu.tw',
+                'nscsystemnoreply@outlook.com',
                 'NSC system'
             );
             $this->email->to($email);
             $this->email->subject('NSC account info');
             $this->email->message($msg);
-            $this->email->send();
+            $result = $this->email->send();
             $response['status'] = 'success';
             $response['data'] = '已寄信到您的信箱'.$email;
         } else {
