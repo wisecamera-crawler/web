@@ -435,7 +435,7 @@ class Wisecamera_LogModel extends CI_Model
     public function logInsertSchedule($schedule_id)
     {
         $currenttime = new DateTime();
-        $this->load->model('schedulemodel', 'scheduleModel');
+        $this->load->model('wisecamera_schedulemodel', 'scheduleModel');
         $result = $this->scheduleModel->getScheduleDataString($schedule_id);
         if ($result!=='error') {
             $this->db->insert(
@@ -468,7 +468,7 @@ class Wisecamera_LogModel extends CI_Model
     public function logDeleteSchedule($schedule_id, $schedule_data)
     {
         $currenttime = new DateTime();
-        $this->load->model('schedulemodel', 'scheduleModel');
+        $this->load->model('wisecamera_schedulemodel', 'scheduleModel');
         $this->db->insert(
             'log',
             array(

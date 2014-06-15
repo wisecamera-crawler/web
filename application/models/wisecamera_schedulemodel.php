@@ -390,7 +390,7 @@ class Wisecamera_ScheduleModel extends CI_Model
             }
         } elseif ($type==='id') {
             $project_ids = array_map('trim', explode(",", $target['project_ids']));
-            $this->load->model('projectmodel', 'projectModel');
+            $this->load->model('wisecamera_projectmodel', 'projectModel');
             if (!($this->projectModel->checkMultipleProjectExists($project_ids))) {
                 $err .= 'some projects do not exist'.PHP_EOL;
             }
