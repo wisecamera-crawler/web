@@ -1035,6 +1035,9 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
         );
         $map = array();
         foreach ($result as $value) {
+            if (($value['status']=='')||($value['status']=='no_proxy')) {
+                continue;
+            }
             $ip = $value['proxy_ip'];
             $day = $this->stripTime($value['endtime']);
             if (!array_key_exists($ip, $map)) {
@@ -1088,7 +1091,8 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
     {
         return array(
             'all_success' => 0, 'success_update' => 0, 'no_change' => 0,
-            'all_fail' => 0, 'cannot_get_data' => 0, 'can_not_resolve' => 0
+            'all_fail' => 0, 'cannot_get_data' => 0, 'can_not_resolve' => 0,
+            'no_proxy' => 0, 'proxy_error' => 0
         );
     }
     /**
@@ -1104,6 +1108,11 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
      */
     private function updateStatusMap($fieldName, &$row, &$mapDay)
     {
+        if ($row['status'] == 'no_proxy') {
+            $mapDay[$fieldName]['all_fail']+=1;
+            $mapDay[$fieldName]['no_proxy']+=1;
+            return;
+        }
         switch ($row[$fieldName]) {
             case 'success_update':
                 $mapDay[$fieldName]['success_update']+=1;
@@ -1120,6 +1129,10 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
             case 'can_not_resolve':
                 $mapDay[$fieldName]['all_fail']+=1;
                 $mapDay[$fieldName]['can_not_resolve']+=1;
+                break;
+            case 'proxy_error':
+                $mapDay[$fieldName]['all_fail']+=1;
+                $mapDay[$fieldName]['proxy_error']+=1;
                 break;
         }
     }

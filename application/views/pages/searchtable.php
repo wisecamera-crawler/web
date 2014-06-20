@@ -216,6 +216,8 @@
     <input type="checkbox" class="showplot" value="fail" checked>失敗</input>
     <input type="checkbox" class="showplot" value="cannot_get_data" checked>無法取得資料頁面</input>
     <input type="checkbox" class="showplot" value="can_not_resolve" checked>解析失敗</input>
+    <input type="checkbox" class="showplot" value="no_proxy" checked>無Proxy可用</input>
+    <input type="checkbox" class="showplot" value="proxy_error" checked>Proxy錯誤</input>
     <div id="statusgraph" class="graphdiv"></div>
 
   </div>

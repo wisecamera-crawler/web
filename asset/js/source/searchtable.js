@@ -355,6 +355,10 @@ function plotStatusViewer() {
       extractData(viewType, 'cannot_get_data'));
   var cannotResolveLine = fillZeroDates(
       extractData(viewType, 'can_not_resolve'));
+  var noProxyLine = fillZeroDates(
+      extractData(viewType, 'no_proxy'));
+  var proxyErrorLine = fillZeroDates(
+      extractData(viewType, 'proxy_error'));
   var dateSpan = Math.floor((Date.parse(allSuccessLine[allSuccessLine.length -
       1][0]) - Date.parse(allSuccessLine[0][0])) / 86400000);
   var width = parseInt($('#statusgraph').css('width'));
@@ -366,7 +370,8 @@ function plotStatusViewer() {
   }
   $('#statusgraph').empty();
   var plot1 = $.jqplot('statusgraph', [allSuccessLine, successUpdateLine,
-    noChangeLine, allFailLine, cannotGetDataLine, cannotResolveLine
+    noChangeLine, allFailLine, cannotGetDataLine, cannotResolveLine,
+    noProxyLine, proxyErrorLine
   ], {
     title: '狀態圖表',
     axes: {
@@ -391,7 +396,9 @@ function plotStatusViewer() {
       show: true,
       location: 'e',
       placement: 'inside',
-      labels: ['成功', '資料改變且匯入成功', '資料無改變', '失敗', '無法取得資料頁面', '解析失敗']
+      labels: ['成功', '資料改變且匯入成功', '資料無改變', '失敗', '無法取得資料頁面',
+        '解析失敗', '無Proxy可用', 'Proxy錯誤'
+      ]
     }
   });
 
@@ -406,6 +413,10 @@ function plotStatusViewer() {
   plot1.series[4].show = $('#statusviewer .showplot[value="cannot_get_data"')
       .prop('checked');
   plot1.series[5].show = $('#statusviewer .showplot[value="can_not_resolve"')
+    .prop('checked');
+  plot1.series[6].show = $('#statusviewer .showplot[value="no_proxy"')
+    .prop('checked');
+  plot1.series[7].show = $('#statusviewer .showplot[value="proxy_error"')
     .prop('checked');
   plot1.replot();
 }
