@@ -44,7 +44,7 @@ $route['users/test'] = 'users/test';
 $route['users/(:any)'] = 'users/$1';
 $route['default_controller'] = 'pages/view';
 */
-$route['default_controller'] = "wisecamera_pages/view/login";
+$route['default_controller'] = "wisecamera_pages/redirect";
 $route['pages/view/(:any)'] = "wisecamera_pages/view/$1";
 $route['projects/(:any)'] = "wisecamera_projects/$1";
 $route['log/(:any)'] = "wisecamera_log/$1";

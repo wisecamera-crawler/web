@@ -129,4 +129,7 @@ class Wisecamera_Pages extends CI_Controller
             $this->logModel->extendUserLogin($data['username']);
         }
     }
+    public function redirect(){
+        header('Location: '.base_url().'index.php/pages/view/login');
+    }
 }
