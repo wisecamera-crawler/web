@@ -972,6 +972,9 @@ function plotvcsviewer() {
   $('#vcsgraph').empty();
   //check the status of the window to determine which item to plot
   var dt = $('#vcsviewer').find('.displaytype :selected').val();
+  if (dt != 'usercontribution') {
+    $('#vcsgraph').css('height', '450px');
+  }
   if (dt == 'totalcommits') {
     var line = [];
     for (var i = 0; i < vcsdata.length; ++i) {
@@ -1015,6 +1018,9 @@ function plotvcsviewer() {
     var modifyline = [];
     var deleteline = [];
     var ticks = [];
+    var numusers = organizedvcscommiterdata[displaytimestamp].length;
+    //change the height of the graph to fit
+    $('#vcsgraph').css('height', Math.max(450, 70 * numusers) + 'px');
     for (var i = 0; i < organizedvcscommiterdata[displaytimestamp].length;
         ++i) {
       ticks[i] = organizedvcscommiterdata[displaytimestamp][i].commiter;

@@ -167,8 +167,9 @@
 
     <hr>
     <center>
-
-      <div id="vcsgraph" class="graphdiv"></div>
+        <div id ="vcsgraphwrapper" class="graphdivwrapper">
+            <div id="vcsgraph" class="graphdiv"></div>
+        </div>
   </div>
   <div id="downloadviewer" hidden>
     <span>顯示前
