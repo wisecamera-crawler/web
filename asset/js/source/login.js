@@ -28,7 +28,7 @@ function showregister() {
  * the server using ajax post.
  */
 function submitregister() {
-  $.post(urlprefix + 'users/register', {
+  $.post('../../users/register', {
     account: $('#registeraccount').val(),
     password: $('#registerpw').val(),
     confirm: $('#registerpwconfirm').val(),
@@ -55,7 +55,7 @@ function submitregister() {
  * their registered e-mail account.
  */
 function submitforgotpw() {
-  $.post(urlprefix + 'users/forgotpw', {
+  $.post('../../users/forgotpw', {
     account: $('#forgotpwaccount').val()
   },
   function(data, status) {
@@ -79,7 +79,7 @@ function submitforgotpw() {
  * their registered e-mail account.
  */
 function resetwithhash() {
-  $.post(urlprefix + 'users/resetwithhash', {
+  $.post('../../users/resetwithhash', {
     account: $('#forgotpwaccount').val(),
     hash: $('#forgotpwhash').val(),
     password: $('#forgotpwnewpass').val()
@@ -103,12 +103,6 @@ function resetwithhash() {
 /**
  * Initialization for the js objects.
  */
-var urlprefix = '';
-urlprefix = document.location.href.substring(
-    0,
-    document.location.href.indexOf('codeigniter')
-    );
-urlprefix += 'codeigniter/index.php/';
 $(document).ready(function() {
   $('#forgotpwwindow').dialog({
     autoOpen: false,
