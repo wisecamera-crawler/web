@@ -1402,8 +1402,8 @@ $(document).ready(function() {
   }
   var classdlhtmlstr = '';
   for (idx = 0; idx < legitclasses.length; idx++) {
-    classdlhtmlstr += '<input type="checkbox" class="filtercheck" value=' +
-        legitclasses[idx] + ' checked>' + legitclasses[idx] + '</input>';
+    classdlhtmlstr += '<input type="checkbox" class="filtercheck" value="' +
+        legitclasses[idx] + '" checked>' + legitclasses[idx] + '</input>';
   }
   $('#filterclasswindow').append(classdlhtmlstr);
   /*load platform selections*/
