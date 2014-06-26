@@ -314,11 +314,10 @@ class Wisecamera_Users extends CI_Controller
                 .'你的NSC Hash為： '.$password;
             $config = array(
                 'protocol' => 'smtp',
-                'smtp_host' => 'smtp.live.com',
-                'smtp_port' => 587,
-                'smtp_crypto' => 'tls',
-                'smtp_user' => 'nscsystemnoreply@outlook.com',
-                'smtp_pass' => 'openfoundry123',
+                'smtp_host' => 'ssl://smtp.googlemail.com',
+                'smtp_port' => '465',
+                'smtp_user' => 'openfoundry.sendmail@gmail.com',
+                'smtp_pass' => 'qwerfdsazxcv4321',
                 'mailtype'  => 'text',
                 'charset'   => 'utf-8'
             );
