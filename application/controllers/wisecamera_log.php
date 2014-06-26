@@ -161,7 +161,7 @@ class Wisecamera_Log extends Wisecamera_CheckUser
         $query = $this->db->query(
 		"SELECT c.project_id, p.name, c.starttime, c.status, c.wiki,
                  c.vcs, c.issue,c.download,  c.endtime FROM crawl_status c,
-                 project p WHERE c.project_id = p.project_id GROUP BY
+                 project p WHERE c.project_id = p.project_id ORDER BY
                  c.starttime DESC"
         );
         $result = $query->result_array();
