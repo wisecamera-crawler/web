@@ -68,7 +68,7 @@ class Wisecamera_Log extends Wisecamera_CheckUser
             "SELECT `timestamp`, 
             `user_id`,`ip`,`action`  FROM `log` WHERE 
             `type`='user' and  `timestamp` < now() 
-            ORDER BY `timestamp` ASC"
+            ORDER BY `timestamp` DESC"
         );
         $result = $query->result_array();
         $data=$result;
@@ -94,7 +94,7 @@ class Wisecamera_Log extends Wisecamera_CheckUser
         $query = $this->db->query(
             "SELECT `timestamp`, `user_id`,`ip`,`action` 
             FROM `log` WHERE `type`='project' ORDER BY 
-            `timestamp` ASC"
+            `timestamp` DESC"
         );
         $result = $query->result_array();
         for ($a=0; $a < sizeof($result); $a++) {
@@ -129,7 +129,7 @@ class Wisecamera_Log extends Wisecamera_CheckUser
         $query = $this->db->query(
             "SELECT `timestamp`, `user_id`,`ip`,
             `action`  FROM `log` WHERE `type`='schedule' 
-            ORDER BY `timestamp` ASC"
+            ORDER BY `timestamp` DESC"
         );
         $result = $query->result_array();
         $dataCount =0;
@@ -162,7 +162,7 @@ class Wisecamera_Log extends Wisecamera_CheckUser
 		"SELECT c.project_id, p.name, c.starttime, c.status, c.wiki,
                  c.vcs, c.issue,c.download,  c.endtime FROM crawl_status c,
                  project p WHERE c.project_id = p.project_id GROUP BY
-                 c.starttime ASC"
+                 c.starttime DESC"
         );
         $result = $query->result_array();
 
@@ -219,7 +219,7 @@ class Wisecamera_Log extends Wisecamera_CheckUser
         header("Content-type: application/json");
         $query = $this->db->query(
             "SELECT `timestamp`, `user_id`,`ip`,`action` 
-            FROM `log` WHERE `type`='query' ORDER BY `timestamp` ASC"
+            FROM `log` WHERE `type`='query' ORDER BY `timestamp` DESC"
         );
         $result = $query->result_array();
         $data=$result;
@@ -242,7 +242,7 @@ class Wisecamera_Log extends Wisecamera_CheckUser
         header("Content-type: application/json");
         $query = $this->db->query(
             "SELECT `timestamp`, `user_id`,`ip`,`action`  FROM `log` WHERE 
-            `type`='server' ORDER BY `timestamp`ASC"
+            `type`='server' ORDER BY `timestamp`DESC"
         );
         $result = $query->result_array();
         $data=$result;
