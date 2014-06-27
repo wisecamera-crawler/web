@@ -1185,12 +1185,12 @@ function plotwikiviewer() {
     }
     plottrendgraph('wikigraph', '日期', '總篇數', line, $(
         '#wikiviewer .numdatas :selected').val(), 'Wiki 圖表');
-  } else if (dt == 'totallines') {
+  } else if (dt == 'totalwords') {
     var line = [];
     for (var i = 0; i < wikidata.length; ++i) {
-      line.push([wikidata[i].timestamp, wikidata[i].line]);
+      line.push([wikidata[i].timestamp, wikidata[i].word]);
     }
-    plottrendgraph('wikigraph', '日期', '總行數', line, $(
+    plottrendgraph('wikigraph', '日期', '總字數', line, $(
         '#wikiviewer .numdatas :selected').val(), 'Wiki 圖表');
 
   } else if (dt == 'totalupdates') {
@@ -1200,15 +1200,15 @@ function plotwikiviewer() {
     }
     plottrendgraph('wikigraph', '日期', '總更新數', line, $(
         '#wikiviewer .numdatas :selected').val(), 'Wiki 圖表');
-  } else if (dt == 'singlethreadlines') {
+  } else if (dt == 'singlethreadwords') {
     var threadname = $('#wikiviewer').find('.threadnamelist :selected').val();
     var line = [];
     for (var i = 0; i < organizedwikisinglethreaddata[threadname].length; ++i) {
       line.push([organizedwikisinglethreaddata[threadname][i].timestamp,
-        organizedwikisinglethreaddata[threadname][i].line
+        organizedwikisinglethreaddata[threadname][i].word
       ]);
     }
-    plottrendgraph('wikigraph', '日期', '單一篇行數', line, $(
+    plottrendgraph('wikigraph', '日期', '單一篇字數', line, $(
         '#wikiviewer .numdatas :selected').val(), 'Wiki 圖表');
   } else if (dt == 'singlethreadupdates') {
     var threadname = $('#wikiviewer').find('.threadnamelist :selected').val();
@@ -1436,8 +1436,8 @@ $(document).ready(function() {
         projects[idx].platform + '</a></td>';
     /* for wiki */
     projectshtmlstr += '<td><span class="wikiviewertext" projectidx=' + idx +
-        '>總共' + projects[idx].wiki_pages + '篇<br>總共' + projects[idx].wiki_line +
-        '行<br>總共' + projects[idx].wiki_update + '次更新</span></td>';
+        '>總共' + projects[idx].wiki_pages + '篇<br>總共' + projects[idx].wiki_word +
+        '字<br>總共' + projects[idx].wiki_update + '次更新</span></td>';
     /* for issue tracker */
     projectshtmlstr += '<td><span class="issuetrackerviewertext" projectidx=' +
         idx + '>總共' + projects[idx].issue_topic + '筆主題<br>總共' +

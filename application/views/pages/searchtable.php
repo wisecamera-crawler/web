@@ -92,10 +92,10 @@
     <span>顯示：
 		<select class="displaytype">
 		  <option value="totalthreads">總篇數</option>
-		  <option value="totallines">總行數</option>
+		  <option value="totalwords">總字數</option>
 		  <option value="totalupdates">總更新次數</option>
 		  <option value="singlethreadupdates">單一篇更新次數</option>
-		  <option value="singlethreadlines">單一篇行數</option>
+		  <option value="singlethreadwords">單一篇行數</option>
 		</select>
 		<span class = "singlethreadpanel" hidden>
 		選擇Wiki文章:
