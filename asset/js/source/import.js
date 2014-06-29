@@ -1,5 +1,3 @@
-;
-
 /**
  * @fileoverview This file contains all the js needed for the import page
  */
@@ -874,16 +872,35 @@ $(document).ready(function() {
   });
   /* assign handlers for submit/cancel modify */
   $('#modsubmit').click(function() {
+    var modifyData = {};
+    var projToMod = projects[selectedmodifyidx];
+    var inputyear = $('#modprojyear').val();
+    var inputtype = $('#modprojclass').val();
+    var inputid = $('#modprojid').val();
+    var inputname = $('#modprojname').val();
+    var inputurl = $('#modprojplatform').val();
+    var inputleader = $('#modprojleader').val();
+    modifyData.project_id = inputid;
+    if (projToMod.year !== inputyear) {
+      modifyData.year = inputyear;
+    }
+    if (projToMod.type !== inputtype) {
+      modifyData.type = inputtype;
+    }
+    if (projToMod.name !== inputname) {
+      modifyData.name = inputname;
+    }
+    if (projToMod.url !== inputurl) {
+      modifyData.url = inputurl;
+    }
+    if (projToMod.leader !== inputleader) {
+      modifyData.leader = inputleader;
+    }
     $.ajax({
       url: '../../projects/modifyproject',
       type: 'POST',
       data: {
-        'year': $('#modprojyear').val(),
-        'type': $('#modprojclass').val(),
-        'project_id': $('#modprojid').val(),
-        'name': $('#modprojname').val(),
-        'url': $('#modprojplatform').val(),
-        'leader': $('#modprojleader').val()
+        'modifydata': modifyData
       },
       async: false,
       success: function(data) {

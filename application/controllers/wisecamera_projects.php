@@ -240,13 +240,13 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
         $output = array();
         $projects = $document->getElementsByTagName('project');
         foreach ($projects as $project) {
-            $id = $project->getElementsByTagName('project_id')->item(0)->nodeValue;
-            $name = $project->getElementsByTagName('name')->item(0)->nodeValue;
-            $year = $project->getElementsByTagName('year')->item(0)->nodeValue;
-            $type = $project->getElementsByTagName('type')->item(0)->nodeValue;
-            $url = $project->getElementsByTagName('url')->item(0)->nodeValue;
+            $id = trim($project->getElementsByTagName('project_id')->item(0)->nodeValue);
+            $name = trim($project->getElementsByTagName('name')->item(0)->nodeValue);
+            $year = trim($project->getElementsByTagName('year')->item(0)->nodeValue);
+            $type = trim($project->getElementsByTagName('type')->item(0)->nodeValue);
+            $url = trim($project->getElementsByTagName('url')->item(0)->nodeValue);
             $platform = $this->getPlatformFromURL($url);
-            $leader = $project->getElementsByTagName('leader')->item(0)->nodeValue;
+            $leader = trim($project->getElementsByTagName('leader')->item(0)->nodeValue);
             if ($this->verifyProjectParameters($id, $name, $year, $type, $url, $leader)) {
                 $output[]=array(
                     'project_id'=>$id, 'name'=>$name, 'year'=>$year,
@@ -348,7 +348,7 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
     {
         $errMsg = '';
         $project_id = $project['project_id'];
-                $result = $this->getDatabaseResult("SELECT * FROM  `project` WHERE `project_id` = '$project_id'");
+        $result = $this->getDatabaseResult("SELECT * FROM  `project` WHERE `project_id` = '$project_id'");
         if (sizeof($result)>0) {
             //modify
             if ($result[0]["status"]=="working") {
@@ -398,7 +398,10 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
     {
         $errMsg = '';
         foreach ($projects as $project) {
-            $errMsg .= $this->importSingleProject($project);
+            $err = $this->importSingleProject($project);
+            if ($err != '') {
+                $errMsg .= $this->importSingleProject($project);
+            }
         }
         return $errMsg;
     }
@@ -470,6 +473,15 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
         );
         if ($doc->loadXML($xmlString)) {
             if ($projects = $this->constructXMLImport($doc)) {
+                $lengthMsg = $this->checkAttributeLength($projects);
+                if ($lengthMsg != '') {
+                    $resp = array(
+                        'status' => 'error',
+                        'errorMessage' => $lengthMsg
+                    );
+                    $this->replyWithJSON($resp);
+                    return;
+                }
                 $data['errorMessage'] = $this->batchImportProjects($projects);
                 if ($data['errorMessage']=='') {
                     $this->replyWithJSON($data);
@@ -523,6 +535,44 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
             $dupString = rtrim($dupString, ', ');
             return $msg.$dupString;
         }
+    }
+    /**
+     * Projects checkAttributeLength
+     * 
+     * This private function will check if any of the attributes in the
+     * projects are too long, if so it returns a human readable error
+     * message. If no attributes were too long, it returns ''.
+     *
+     * @param array $projects The array of projects that need to be checked.
+     *
+     * @return A human readable error message. If no errors are
+     * found, returns an empty string ''.
+     *
+     * @author Kai Yuen <keeperkai@msn.com>
+     * @version 1.0
+     */
+    private function checkAttributeLength($projects)
+    {
+        $err = '';
+        foreach ($projects as $project) {
+            $projectID = $project['project_id'];
+            if (strlen($projectID)>32) {
+                $err.="專案代碼為: ".$projectID."之專案代碼長度超過32位元".PHP_EOL;
+            }
+            if (strlen($project['type'])>16) {
+                $err.="專案代碼為: ".$projectID."之專案類型長度超過16位元".PHP_EOL;
+            }
+            if (strlen($project['name'])>64) {
+                $err.="專案代碼為: ".$projectID."之專案名稱長度超過64位元".PHP_EOL;
+            }
+            if (strlen($project['leader'])>32) {
+                $err.="專案代碼為: ".$projectID."之專案主持人長度超過32位元".PHP_EOL;
+            }
+            if (strlen($project['url'])>128) {
+                $err.="專案代碼為: ".$projectID."之專案網址長度超過128位元".PHP_EOL;
+            }
+        }
+        return $err;
     }
     /**
      * Projects checkUploadBatch
@@ -596,7 +646,17 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
         $data = array('status'=>'success','errorMessage' => '','confirmMessage' => '');
         if ($doc->loadXML($xmlString)) {
             if ($projects = $this->constructXMLImport($doc)) {
+                $lengthMsg = $this->checkAttributeLength($projects);
+                if ($lengthMsg != '') {
+                    $resp = array(
+                        'status' => 'error',
+                        'errorMessage' => $lengthMsg
+                    );
+                    $this->replyWithJSON($resp);
+                    return;
+                }
                 $dupMsg = $this->findDuplicateProjects($projects);
+                
                 if ($dupMsg == '') {
                     $data['errorMessage'] = $this->batchImportProjects($projects);
                     if ($data['errorMessage']=='') {
@@ -741,7 +801,7 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
         );
         if (sizeof($result)==0) {
             $response["status"] = "fail";
-            $response["errorMessage"] = "系統中並沒有專案代碼為 ".$project_id." 的專案.";
+            $response["errorMessage"] = "系統中專案代碼為 ".$project_id." 的專案已遭刪除.";
             $this->replyWithJSON($response);
             return;
         }
@@ -776,35 +836,47 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
      */
     public function modifyProject()
     {
-        $project_id = $this->input->post('project_id');
+        $modData = $this->input->post('modifydata');
+        $project_id = $modData['project_id'];
+        unset($modData['project_id']);
+        /*
         $type = $this->input->post('type');
         $name = $this->input->post('name');
         $url = $this->input->post('url');
         $platform = $this->getPlatformFromURL($url);
         $year = $this->input->post('year');
         $leader = $this->input->post('leader');
+        */
         $response = array('status' => 'success', 'errorMessage' => '');
         $errMsg = '';
-        if ($project_id=='') {
-            $errMsg .='專案代碼不可為空'.PHP_EOL;
+        foreach ($modData as $key => $val) {
+            if ($val=='') {
+                $attributeName = '';
+                switch ($key) {
+                    case 'name':
+                        $attributeName = '專案名稱';
+                        break;
+                    case 'year':
+                        $attributeName = '專案年度';
+                        break;
+                    case 'leader':
+                        $attributeName = '專案主持人';
+                        break;
+                    case 'type':
+                        $attributeName = '專案類型';
+                        break;
+                    case 'url':
+                        $attributeName = '專案網址';
+                        break;
+                }
+                $errMsg .= $attributeName.'不可為空'.PHP_EOL;
+            }
         }
-        if ($name=='') {
-            $errMsg .='專案名稱不可為空'.PHP_EOL;
-        }
-        if ($year=='') {
-            $errMsg .='專案年度不可為空'.PHP_EOL;
-        }
-        if ($leader=='') {
-            $errMsg .='專案主持人不可為空'.PHP_EOL;
-        }
-        if ($type=='') {
-            $errMsg .='專案類型不可為空'.PHP_EOL;
-        }
-        if ($url=='') {
-            $errMsg .='專案網址不可為空'.PHP_EOL;
-        }
-        if ($platform=='') {
-            $errMsg .='無法辨認專案網址平台'.PHP_EOL;
+        if (array_key_exists('url', $modData)) {
+            $platform = $this->getPlatformFromURL($modData['url']);
+            if ($platform=='') {
+                $errMsg .='無法辨認專案網址平台'.PHP_EOL;
+            }
         }
         if ($errMsg!='') {
             $response["status"] = "fail";
@@ -817,7 +889,7 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
         );
         if (sizeof($result)==0) {
             $response["status"] = "fail";
-            $response["errorMessage"] = "系統中並沒有專案代碼為 ".$project_id." 的專案.";
+            $response["errorMessage"] = "系統中專案代碼為 ".$project_id." 的專案已遭刪除.";
             $this->replyWithJSON($response);
             return;
         }
@@ -828,23 +900,24 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
             $this->replyWithJSON($response);
             return;
         }
-        $this->db->update(
+        $updateResult = $this->db->update(
             'project',
-            array(
-                'type'=>$type, 'name'=>$name, 'url'=>$url,
-                'platform'=>$platform, 'year'=>$year,
-                'leader'=>$leader
-            ),
+            $modData,
             array('project_id'=>$project_id)
         );
-        $this->logModel->logUpdateProject(
-            array(
-                'project_id'=>$project_id, 'type'=>$type, 'name'=>$name,
-                'url'=>$url, 'platform'=>$platform, 'year'=>$year,
-                'leader'=>$leader
-            )
-        );
-        $this->replyWithJSON($response);
+        if ($updateResult) {
+            $q = $this->db->get_where('project', array('project_id' => $project_id));
+            $r = $q->result_array();
+            $proj = $r[0];
+            $this->logModel->logUpdateProject(
+                $proj
+            );
+            $this->replyWithJSON($response);
+        } else {
+            $response["status"] = "fail";
+            $response["errorMessage"] = "資料庫錯誤，無法更新資料";
+            $this->replyWithJSON($response);
+        }
     }
     /**
      * Projects getGenericData
