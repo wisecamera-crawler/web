@@ -320,16 +320,7 @@ class Wisecamera_Users extends CI_Controller
             $email = $result[0]['email'];
             $msg = '你的NSC帳號為： '.$account.PHP_EOL
                 .'你的NSC Hash為： '.$password;
-            $config = array(
-                'protocol' => 'smtp',
-                'smtp_host' => 'ssl://smtp.googlemail.com',
-                'smtp_port' => '465',
-                'smtp_user' => 'openfoundry.sendmail@gmail.com',
-                'smtp_pass' => 'qwerfdsazxcv4321',
-                'mailtype'  => 'text',
-                'charset'   => 'utf-8'
-            );
-            $this->load->library('email', $config);
+            $this->load->library('email');
             $this->email->set_newline("\r\n");
             // Set to, from, message, etc.
             $this->email->from(
