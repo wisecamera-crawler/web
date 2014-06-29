@@ -351,6 +351,10 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
                 $result = $this->getDatabaseResult("SELECT * FROM  `project` WHERE `project_id` = '$project_id'");
         if (sizeof($result)>0) {
             //modify
+            if ($result[0]["status"]=="working") {
+                $errMsg = "正在執行id為 ".$result[0]["project_id"]." 之專案，無法修改.";
+                return $errMsg;
+            }
             $result = $this->updateProject($project);
             if (!$result) {
                 $errMsg = 'unable to update the project with id = '.$project_id.PHP_EOL;
@@ -741,6 +745,13 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
             $this->replyWithJSON($response);
             return;
         }
+        if ($result[0]["status"]=="working") {
+            $response["status"] = "fail";
+            $response["errorMessage"] = "系統正在執行專案代碼為 ".$project_id." 的專案排程.";
+            $response["errorMessage"] .= "請稍後再試.";
+            $this->replyWithJSON($response);
+            return;
+        }
         $this->db->delete('project', array('project_id'=>$project_id));
         $this->db->delete('schedule_group', array('member'=>$project_id));
         $this->logModel->logDeleteProject($project_id);
@@ -807,6 +818,13 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
         if (sizeof($result)==0) {
             $response["status"] = "fail";
             $response["errorMessage"] = "系統中並沒有專案代碼為 ".$project_id." 的專案.";
+            $this->replyWithJSON($response);
+            return;
+        }
+        if ($result[0]["status"]=="working") {
+            $response["status"] = "fail";
+            $response["errorMessage"] = "系統正在執行專案代碼為 ".$project_id." 的專案排程.";
+            $response["errorMessage"] .= "請稍後再試.";
             $this->replyWithJSON($response);
             return;
         }
