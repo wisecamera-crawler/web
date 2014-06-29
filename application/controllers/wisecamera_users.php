@@ -77,7 +77,7 @@ class Wisecamera_Users extends CI_Controller
         $hash = $this->input->post('hash');
         $account = $this->input->post('account');
         $password = $this->input->post('password');
-        $query = $this->db->get_where('user', array('user_id'=>$account, 'password'=>$hash));
+        $query = $this->db->get_where('user', array('user_id'=>$account));
         $result = $query->result_array();
         $status = 'success';
         $data = '';
@@ -91,15 +91,22 @@ class Wisecamera_Users extends CI_Controller
             $status = 'fail';
             $data = '資料不可為空';
         } else {
-            $this->load->helper('hashsalt');
-            $dbresult = $this->db->update(
-                'user',
-                array('password'=>create_hash($password)),
-                array('user_id'=>$account)
-            );
-            if (!$dbresult) {
+            $toks = explode(":", $result[0]["password"]);
+            $h = $toks[2];
+            if ($h === $hash) {
+                $this->load->helper('hashsalt');
+                $dbresult = $this->db->update(
+                    'user',
+                    array('password'=>create_hash($password)),
+                    array('user_id'=>$account)
+                );
+                if (!$dbresult) {
+                    $status = 'fail';
+                    $data = '資料庫錯誤';
+                }
+            } else {
                 $status = 'fail';
-                $data = '資料庫錯誤';
+                $data = '帳號或者hash錯誤';
             }
         }
         header("Content-type: application/json");
@@ -308,7 +315,8 @@ class Wisecamera_Users extends CI_Controller
         );
         $result = $query->result_array();
         if (sizeof($result)!=0) {
-            $password = $result[0]['password'];
+            $toks = explode(":", $result[0]['password']);
+            $password = $toks[2];
             $email = $result[0]['email'];
             $msg = '你的NSC帳號為： '.$account.PHP_EOL
                 .'你的NSC Hash為： '.$password;
@@ -325,7 +333,7 @@ class Wisecamera_Users extends CI_Controller
             $this->email->set_newline("\r\n");
             // Set to, from, message, etc.
             $this->email->from(
-                'nscsystemnoreply@outlook.com',
+                'openfoundry.sendmail@gmail.com',
                 'NSC system'
             );
             $this->email->to($email);
