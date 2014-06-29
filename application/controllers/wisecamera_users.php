@@ -157,10 +157,10 @@ class Wisecamera_Users extends CI_Controller
                 $this->session->userdata('ACCOUNT')
             );
             header(
-                'Location: '. base_url(). '/index.php/pages/view/searchtable'
+                'Location: '. base_url(). 'index.php/pages/view/searchtable'
             );
         } else {
-            header('Location: ' . base_url(). '/index.php/pages/view/login');
+            header('Location: ' . base_url(). 'index.php/pages/view/login');
         }
     }
     /**
@@ -208,7 +208,7 @@ class Wisecamera_Users extends CI_Controller
         }
     }
     /**
-     * Users login
+     * Users register
      * 
      * This function will register a new user account in the system. The
      * account information is retrieved from the post body. It will then
