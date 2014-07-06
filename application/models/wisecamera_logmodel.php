@@ -12,7 +12,6 @@
  * @license  none <none>
  */
 
-
 /**
  * This model is used for doing all kinds of operations related to logging
  * in the system. These operations include logging query, login/logout,
@@ -33,7 +32,7 @@ class Wisecamera_LogModel extends CI_Model
     public $user_id = '';
     /**
      * Constructor
-     * 
+     *
      * Initializes this model, gets the id and ip of the user and sets them
      * in the corresponding variables.
      *
@@ -50,14 +49,14 @@ class Wisecamera_LogModel extends CI_Model
     }
     /**
      * LogModel translateType
-     * 
+     *
      * This function translates the graph type in English from the database to
      * Chinese.
      *
      * @param string $type The type of the graph data in English.
      *
      * @return string The graph data in Chinese. If the graph type does not
-     * exist the function will return an empty string ''.
+     *                exist the function will return an empty string ''.
      *
      * @author Kai Yuen <keeperkai@msn.com>
      * @version 1.0
@@ -65,8 +64,7 @@ class Wisecamera_LogModel extends CI_Model
     public function translateType($type)
     {
         $output = '';
-        switch($type)
-        {
+        switch ($type) {
             case 'wiki':
                 $output = 'Wiki資訊';
                 break;
@@ -86,16 +84,17 @@ class Wisecamera_LogModel extends CI_Model
                 $output = '狀態資訊';
                 break;
         }
+
         return $output;
     }
     /**
      * LogModel logQuery
-     * 
+     *
      * This function logs that a user has queried for a certain graph type of
      * a project.
      *
      * @param string $project_id The id of the project.
-     * @param string $type The type of the graph data in English.
+     * @param string $type       The type of the graph data in English.
      *
      * @return none
      *
@@ -104,7 +103,7 @@ class Wisecamera_LogModel extends CI_Model
      */
     public function logQuery($project_id, $type)
     {
-        $currentTime = new DateTime();
+        $currentTime = new DateTime(null, new DateTimeZone($this->config->item('time_zone')));
         $type_translate = $this->translateType($type);
         $action = '查詢了代號為'.$project_id.'的專案之'.$type_translate;
         $this->db->insert(
@@ -120,7 +119,7 @@ class Wisecamera_LogModel extends CI_Model
     }
     /**
      * LogModel loginUser
-     * 
+     *
      * This function logs that a user has logged in from a certain ip address.
      * Note that when the user logs in the function automatically adds a
      * row in the database that is 30 mintues into the future, that way if
@@ -137,8 +136,8 @@ class Wisecamera_LogModel extends CI_Model
      */
     public function loginUser($userid)
     {
-        $currentTime = new DateTime();
-        $currentTimePlus30 = new DateTime();
+        $currentTime = new DateTime(null, new DateTimeZone($this->config->item('time_zone')));
+        $currentTimePlus30 = new DateTime(null, new DateTimeZone($this->config->item('time_zone')));
         $currentTimePlus30->add(new DateInterval('PT30M'));
         $this->db->insert(
             'log',
@@ -163,7 +162,7 @@ class Wisecamera_LogModel extends CI_Model
     }
     /**
      * LogModel logoutUser
-     * 
+     *
      * This function logs that a user has logged out from a certain ip address.
      *
      * @param string $userid The id of the user.
@@ -175,8 +174,8 @@ class Wisecamera_LogModel extends CI_Model
      */
     public function logoutUser($userid)
     {
-        $currentTime = new DateTime();
-        $currentTimePlus30 = new DateTime();
+        $currentTime = new DateTime(null, new DateTimeZone($this->config->item('time_zone')));
+        $currentTimePlus30 = new DateTime(null, new DateTimeZone($this->config->item('time_zone')));
         $currentTimePlus30->add(new DateInterval('PT30M'));
         $this->db->select('*');
         $this->db->from('log');
@@ -200,7 +199,7 @@ class Wisecamera_LogModel extends CI_Model
     }
     /**
      * LogModel extendUserLogin
-     * 
+     *
      * This function checks if the user is still within the time frame of
      * the 30 minute logout entry, if so this function will add 30 minutes
      * to the logout entry, this function is typically called whenever the
@@ -227,9 +226,9 @@ class Wisecamera_LogModel extends CI_Model
         $query = $this->db->get();
         $result = $query->result_array();
         if (sizeof($result)>0) {
-            $logoutTime = new DateTime($result[0]['timestamp']);
-            $currentTime = new DateTime();
-            $currentTimePlus30 = new DateTime();
+            $logoutTime = new DateTime($result[0]['timestamp'], new DateTimeZone($this->config->item('time_zone')));
+            $currentTime = new DateTime(null, new DateTimeZone($this->config->item('time_zone')));
+            $currentTimePlus30 = new DateTime(null, new DateTimeZone($this->config->item('time_zone')));
             $currentTimePlus30->add(new DateInterval('PT30M'));
             if ($logoutTime>$currentTime) {
                 $this->db->update(
@@ -250,18 +249,18 @@ class Wisecamera_LogModel extends CI_Model
     }
     /**
      * LogModel logUpdateProject
-     * 
+     *
      * This function logs that the info of a project has been updated/modified.
      *
      * @param array $project An associative array representing the project's
-     * data after the update, it has the following keys:
-     * project_id : id of project.
-     * year : year of the project.
-     * type : type of the project.
-     * name : name of the project.
-     * url : url link to the project home.
-     * platform : platform of the project.
-     * leader : leader of the project.
+     *                       data after the update, it has the following keys:
+     *                       project_id : id of project.
+     *                       year : year of the project.
+     *                       type : type of the project.
+     *                       name : name of the project.
+     *                       url : url link to the project home.
+     *                       platform : platform of the project.
+     *                       leader : leader of the project.
      *
      * @return none
      *
@@ -270,7 +269,7 @@ class Wisecamera_LogModel extends CI_Model
      */
     public function logUpdateProject($project)
     {
-        $currentTime = new DateTime();
+        $currentTime = new DateTime(null, new DateTimeZone($this->config->item('time_zone')));
         $project_id = $project['project_id'];
         $year = $project['year'];
         $type = $project['type'];
@@ -291,18 +290,18 @@ class Wisecamera_LogModel extends CI_Model
     }
     /**
      * LogModel logInsertProject
-     * 
+     *
      * This function logs that the info of a project has been inserted.
      *
      * @param array $project An associative array representing the inserted
-     * project's data, it has the following keys:
-     * project_id : id of project.
-     * year : year of the project.
-     * type : type of the project.
-     * name : name of the project.
-     * url : url link to the project home.
-     * platform : platform of the project.
-     * leader : leader of the project.
+     *                       project's data, it has the following keys:
+     *                       project_id : id of project.
+     *                       year : year of the project.
+     *                       type : type of the project.
+     *                       name : name of the project.
+     *                       url : url link to the project home.
+     *                       platform : platform of the project.
+     *                       leader : leader of the project.
      *
      * @return none
      *
@@ -311,7 +310,7 @@ class Wisecamera_LogModel extends CI_Model
      */
     public function logInsertProject($project)
     {
-        $currentTime = new DateTime();
+        $currentTime = new DateTime(null, new DateTimeZone($this->config->item('time_zone')));
         $project_id = $project['project_id'];
         $year = $project['year'];
         $type = $project['type'];
@@ -332,11 +331,11 @@ class Wisecamera_LogModel extends CI_Model
     }
     /**
      * LogModel logDeleteProject
-     * 
+     *
      * This function logs that the info of a project has been inserted.
      *
      * @param string $project_id Log that a project with the id : project_id
-     * has been deleted from the system.
+     *                           has been deleted from the system.
      *
      * @return none
      *
@@ -345,7 +344,7 @@ class Wisecamera_LogModel extends CI_Model
      */
     public function logDeleteProject($project_id)
     {
-        $currentTime = new DateTime();
+        $currentTime = new DateTime(null, new DateTimeZone($this->config->item('time_zone')));
         $action = 'delete,'.$project_id;
         $this->db->insert(
             'log',
@@ -360,23 +359,23 @@ class Wisecamera_LogModel extends CI_Model
     }
     /**
      * LogModel getProjectModificationHistory
-     * 
+     *
      * This function gets the modification history of a project with the id :
      * $project_id. The result is returned as an array.
      *
      * @param string $project_id The id of the project in question.
      *
      * @return array An array of modification entries, each containing the
-     * following keys :
-     * project_id : project's id
-     * timestamp : The date/time the modification occurred
-     * user_id : The user that modified the project
-     * name : project's name
-     * year : project's year
-     * type : project's type
-     * url : project's url
-     * platform : project's platform
-     * leader : project's leader
+     *               following keys :
+     *               project_id : project's id
+     *               timestamp : The date/time the modification occurred
+     *               user_id : The user that modified the project
+     *               name : project's name
+     *               year : project's year
+     *               type : project's type
+     *               url : project's url
+     *               platform : project's platform
+     *               leader : project's leader
      *
      * @author Kai Yuen <keeperkai@msn.com>
      * @version 1.0
@@ -423,7 +422,7 @@ class Wisecamera_LogModel extends CI_Model
     }
     /**
      * LogModel logInsertSchedule
-     * 
+     *
      * This function logs that a new schedule has been arranged in the system.
      *
      * @param string $schedule_id The id of the schedule that's been arranged.
@@ -434,7 +433,7 @@ class Wisecamera_LogModel extends CI_Model
      */
     public function logInsertSchedule($schedule_id)
     {
-        $currenttime = new DateTime();
+        $currenttime = new DateTime(null, new DateTimeZone($this->config->item('time_zone')));
         $this->load->model('wisecamera_schedulemodel', 'scheduleModel');
         $result = $this->scheduleModel->getScheduleDataString($schedule_id);
         if ($result!=='error') {
@@ -448,6 +447,7 @@ class Wisecamera_LogModel extends CI_Model
                     'timestamp'=>$currenttime->format('Y-m-d H:i:s')
                 )
             );
+
             return true;
         } else {
             return false;
@@ -455,19 +455,19 @@ class Wisecamera_LogModel extends CI_Model
     }
     /**
      * LogModel logInsertSchedule
-     * 
+     *
      * This function logs that a schedule has been deleted in the system.
      *
-     * @param string $schedule_id The id of the schedule that's been deleted.
+     * @param  string  $schedule_id The id of the schedule that's been deleted.
      * @param string A string that represents the schedule before it was
-     * deleted.
+     *                              deleted.
      * @return boolean returns whether the log was successful.
      * @author Kai Yuen <keeperkai@msn.com>
      * @version 1.0
      */
     public function logDeleteSchedule($schedule_id, $schedule_data)
     {
-        $currenttime = new DateTime();
+        $currenttime = new DateTime(null, new DateTimeZone($this->config->item('time_zone')));
         $this->load->model('wisecamera_schedulemodel', 'scheduleModel');
         $this->db->insert(
             'log',

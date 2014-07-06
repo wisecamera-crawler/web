@@ -105,7 +105,7 @@ class Wisecamera_ScheduleModel extends CI_Model
      */
     private function stripDate($datetime)
     {
-        $tmp = new DateTime($datetime);
+        $tmp = new DateTime($datetime, new DateTimeZone($this->config->item('time_zone')));
         $time = $tmp->format('H:i');
 
         return $time;
@@ -125,7 +125,7 @@ class Wisecamera_ScheduleModel extends CI_Model
      */
     private function stripSecond($datetime)
     {
-        $tmp = new DateTime($datetime);
+        $tmp = new DateTime($datetime, new DateTimeZone($this->config->item('time_zone')));
         $time = $tmp->format('Y-m-d H:i');
 
         return $time;
@@ -299,8 +299,8 @@ class Wisecamera_ScheduleModel extends CI_Model
                     break;
             }
             if ($schedule['sch_type']=='one_time') {
-                $scheduledate = new DateTime($schedule['time']);
-                $currentdate = new DateTime();
+                $scheduledate = new DateTime($schedule['time'], new DateTimeZone($this->config->item('time_zone')));
+                $currentdate = new DateTime(null, new DateTimeZone($this->config->item('time_zone')));
                 if ($currentdate>$scheduledate) {
                     $inactive[] = $element;
                 } else {
@@ -398,11 +398,19 @@ class Wisecamera_ScheduleModel extends CI_Model
         }
         //time checking
         if ($period === 'one_time') {
-            if (DateTime::createFromFormat('m/d/Y G:i:s', $time) === false) {
+            if (DateTime::createFromFormat(
+                'm/d/Y G:i:s',
+                $time,
+                new DateTimeZone($this->config->item('time_zone'))
+            )=== false) {
                 $err .= 'not a valid time'.PHP_EOL;
             }
         } elseif ($period==='daily'||$period==='weekly') {
-            if (DateTime::createFromFormat('G:i:s', $time) === false) {
+            if (DateTime::createFromFormat(
+                'G:i:s',
+                $time,
+                new DateTimeZone($this->config->item('time_zone'))
+            ) === false) {
                 $err .= 'not a valid time'.PHP_EOL;
             }
         }

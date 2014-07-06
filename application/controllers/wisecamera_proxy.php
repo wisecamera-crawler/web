@@ -166,7 +166,7 @@ class Wisecamera_Proxy extends CI_Controller
 					$user_id = $this->session->userdata('ACCOUNT');
 					$user_ip = $_SERVER['REMOTE_ADDR'];
 					$action ="使用者$user_id 將server($proxyIp) 停止啟用";
-					$currentTime = new DateTime();
+					$currentTime = new DateTime(null, new DateTimeZone($this->config->item('time_zone')));
 					$this->db->insert('log',array('user_id'=>"$user_id", 'ip'=>"$user_ip", 'type'=>'server', 'action'=>$action, 'timestamp'=>$currentTime->format('Y-m-d H:i:s')));
 
 				}
@@ -181,7 +181,7 @@ class Wisecamera_Proxy extends CI_Controller
 					$user_id = $this->session->userdata('ACCOUNT');
 					$user_ip = $_SERVER['REMOTE_ADDR'];
 					$action ="使用者$user_id 將server($proxyIp) 啟用";
-					$currentTime = new DateTime();
+					$currentTime = new DateTime(null, new DateTimeZone($this->config->item('time_zone')));
 					$this->db->insert('log',array('user_id'=>"$user_id", 'ip'=>"$user_ip", 'type'=>'server', 'action'=>$action, 'timestamp'=>$currentTime->format('Y-m-d H:i:s')));
 				}
 			}

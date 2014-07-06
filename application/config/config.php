@@ -377,3 +377,8 @@ function __autoload($class)
         @include_once( APPPATH . 'core/'. $class . EXT );
     }
 }
+/*
+This config variable is to set the time zone of this system, the system will
+use the setting to create DateTime objects.
+*/
+$config['time_zone'] = 'Asia/Taipei';

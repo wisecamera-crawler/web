@@ -59,7 +59,7 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
      */
     private function stripTime($date)
     {
-        $createDate = new DateTime($date);
+        $createDate = new DateTime($date, new DateTimeZone($this->config->item('time_zone')));
         $strip = $createDate->format('Y-m-d');
         return $strip;
     }
@@ -871,6 +871,13 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
                 }
                 $errMsg .= $attributeName.'不可為空'.PHP_EOL;
             }
+        }
+        //check if the modify data does not contain any modified keys, if so throw error
+        if (count($modData) === 0) {
+            $response["status"] = "fail";
+            $response["errorMessage"] = "你沒有修改任何欄位，請至少修改一個欄位";
+            $this->replyWithJSON($response);
+            return;
         }
         if (array_key_exists('url', $modData)) {
             $platform = $this->getPlatformFromURL($modData['url']);
