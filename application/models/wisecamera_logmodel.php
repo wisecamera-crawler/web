@@ -24,12 +24,12 @@
  * @package  Wisecamera
  * @author   Kai Yuen <keeperkai@msn.com>
  * @param string $userIP The ip address of the current user
- * @param string $user_id The user_id of the current user.
+ * @param string $userID The userID of the current user.
  */
 class Wisecamera_LogModel extends CI_Model
 {
     public $userIP = '';
-    public $user_id = '';
+    public $userID = '';
     /**
      * Constructor
      *
@@ -44,7 +44,7 @@ class Wisecamera_LogModel extends CI_Model
     public function __construct()
     {
         parent::__construct();
-        $this->user_id = $this->session->userdata('ACCOUNT');
+        $this->userID = $this->session->userdata('ACCOUNT');
         $this->userIP = $_SERVER['REMOTE_ADDR'];
     }
     /**
@@ -109,7 +109,7 @@ class Wisecamera_LogModel extends CI_Model
         $this->db->insert(
             'log',
             array(
-                'user_id'=>$this->user_id,
+                'user_id'=>$this->userID,
                 'ip'=>$this->userIP,
                 'type'=>'query',
                 'action'=>$action,
@@ -282,7 +282,7 @@ class Wisecamera_LogModel extends CI_Model
         $this->db->insert(
             'log',
             array(
-                'user_id'=>$this->user_id, 'ip'=>$this->userIP,
+                'user_id'=>$this->userID, 'ip'=>$this->userIP,
                 'type'=>'project', 'action'=>$action,
                 'timestamp'=>$currentTime->format('Y-m-d H:i:s')
             )
@@ -323,7 +323,7 @@ class Wisecamera_LogModel extends CI_Model
         $this->db->insert(
             'log',
             array(
-                'user_id'=>$this->user_id, 'ip'=>$this->userIP,
+                'user_id'=>$this->userID, 'ip'=>$this->userIP,
                 'type'=>'project', 'action'=>$action,
                 'timestamp'=>$currentTime->format('Y-m-d H:i:s')
             )
@@ -349,7 +349,7 @@ class Wisecamera_LogModel extends CI_Model
         $this->db->insert(
             'log',
             array(
-                'user_id'=>$this->user_id,
+                'user_id'=>$this->userID,
                 'ip'=>$this->userIP,
                 'type'=>'project',
                 'action'=>$action,
@@ -440,7 +440,7 @@ class Wisecamera_LogModel extends CI_Model
             $this->db->insert(
                 'log',
                 array(
-                    'user_id'=>$this->user_id,
+                    'user_id'=>$this->userID,
                     'ip'=>$this->userIP,
                     'action'=>'新增了 '.$result.'排程',
                     'type'=>'schedule',
@@ -472,7 +472,7 @@ class Wisecamera_LogModel extends CI_Model
         $this->db->insert(
             'log',
             array(
-                'user_id'=>$this->user_id,
+                'user_id'=>$this->userID,
                 'ip'=>$this->userIP,
                 'action'=>'刪除了 '.$schedule_data.'排程',
                 'type'=>'schedule',
