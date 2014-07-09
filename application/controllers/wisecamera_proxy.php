@@ -64,37 +64,56 @@ class Wisecamera_Proxy extends CI_Controller
             return;
         }
 
-        $query = $this->db->query("SELECT * FROM `proxy` WHERE `proxy_ip` = '$ip'");
+        $query = $this->db->get_where("proxy", array("proxy_ip"=>$ip));
         $result = $query->result_array();
 
         //nothing, dirctly insert
         if (sizeof($result) == 0) {
-            $q1 = $this->db->query(
-                "INSERT INTO `proxy` (`proxy_ip`, `proxy_port`, `status`)
-                    VALUES('$ip', '$port', 'on-line')"
+            $q1 = $this->db->insert(
+                "proxy",
+                array
+                (
+                    "proxy_ip"=>$ip,
+                    "proxy_port"=>$port,
+                    "status"=>"on-line"
+                )
             );
-            $q2 = $this->db->query(
-                "INSERT INTO `log` (`user_id`, `ip`, `type`, `action`)
-                    VALUES('', '$ip', 'server', 'Proxy Server 完成佈屬')"
+            $q2 = $this->db->insert(
+                "log",
+                array
+                (
+                    "user_id"=>"",
+                    "ip"=>$ip,
+                    "type"=>"server",
+                    "action"=>"Proxy Server 完成佈屬"
+                )
             );
-
+            
             if ($q1 == false  or $q2 == false) {
                 echo "fail : DB error";
             } else {
                 echo "success";
             }
         } else {
-            $q1 = $this->db->query(
-                "UPDATE `proxy`
-                    SET `proxy_port` = '$port',
-                        `status` = 'on-line'
-                    WHERE `proxy_ip` = '$ip'"
+            $q1 = $this->db->update(
+                "proxy",
+                array
+                (
+                    "proxy_port"=>$port,
+                    "status"=>"on-line"
+                ),
+                array("proxy_ip"=>$ip)
             );
-            $q2 = $this->db->query(
-                "INSERT INTO `log` (`user_id`, `ip`, `type`, `action`)
-                    VALUES('', '$ip', 'server', 'Proxy Server 完成重啟')"
+            $q2 = $this->db->insert(
+                "log",
+                array
+                (
+                    "user_id"=>"",
+                    "ip"=>$ip,
+                    "type"=>"server",
+                    "action"=>"Proxy Server 完成重啟"
+                )
             );
-
             if ($q1 == false or $q2 == false) {
                 echo "fail : DB error";
             } else {
@@ -119,9 +138,8 @@ class Wisecamera_Proxy extends CI_Controller
     public function getProxyList()
     {
         header("Content-type: application/json");
-
-
-        $query = $this->db->query("SELECT `proxy_ip`,`status` FROM `proxy`");
+        $this->db->select('proxy_ip, status');
+        $query = $this->db->get('proxy');
         $result = $query->result_array();
         if (sizeof($result) == 0) {
             $msg['status'] = 'empty';
@@ -148,7 +166,8 @@ class Wisecamera_Proxy extends CI_Controller
         $account = $this->input->post('account');
 //	    var_dump($account);
 
-        $query = $this->db->query("SELECT `proxy_ip`,`status` FROM `proxy`");
+        $this->db->select('proxy_ip, status');
+        $query = $this->db->get('proxy');
         $result = $query->result_array();
         if (sizeof($result) == 0) {
             $msg['status'] = 'empty';

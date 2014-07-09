@@ -64,42 +64,6 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
         return $strip;
     }
     /**
-     * Projects getDatabaseResult
-     * 
-     * This private function will do a database query.
-     *
-     * @param string $queryString the database query string.
-     *
-     * @return array The result array of the query.
-     *
-     * @author Kai Yuen <keeperkai@msn.com>
-     * @version 1.0
-     */
-    private function getDatabaseResult($queryString)
-    {
-        $que = $this->db->query($queryString);
-        $result = $que->result_array();
-        return $result;
-    }
-    /**
-     * Projects getDatabaseRows
-     * 
-     * This private function will do a database query and return the result
-     * as a JSON object to the user agent.
-     *
-     * @param string $queryString the database query string.
-     *
-     * @return none
-     *
-     * @author Kai Yuen <keeperkai@msn.com>
-     * @version 1.0
-     */
-    private function replyDatabaseRows($queryString)
-    {
-        $result = $this->getDatabaseResult($queryString);
-        $this->replyWithJSON($result);
-    }
-    /**
      * Projects replyWithJSON
      * 
      * This private function will send the proper header and json encode an
@@ -260,6 +224,24 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
         }
         return $output;
     }
+    /**
+     * Projects updateProject
+     * 
+     * This private function will update a project in the database and do
+     * logging on success.
+     * @param array $project The associative array containing the attributes
+     * of the project, the keys are described below:
+     * project_id : The id of the project.
+     * year : The year of the project.
+     * type : The type of the project.
+     * url : The link to the project home.
+     * leader : The leader of this project.
+     *
+     * @return boolean If it fails to insert to database, returns false; Else return
+     * true.
+     * @author Kai Yuen <keeperkai@msn.com>
+     * @version 1.0
+     */
     private function updateProject($project)
     {
          $project_id = $project['project_id'];
@@ -348,7 +330,8 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
     {
         $errMsg = '';
         $project_id = $project['project_id'];
-        $result = $this->getDatabaseResult("SELECT * FROM  `project` WHERE `project_id` = '$project_id'");
+        $query = $this->db->get_where('project', array('project_id'=>$project_id));
+        $result = $query->result_array();
         if (sizeof($result)>0) {
             //modify
             if ($result[0]["status"]=="working") {
@@ -524,7 +507,8 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
         $dupString = '';
         foreach ($projects as $project) {
             $project_id = $project['project_id'];
-            $result = $this->getDatabaseResult("SELECT * FROM `project` WHERE  `project_id` = '$project_id'");
+            $query = $this->db->get_where('project', array('project_id'=>$project_id));
+            $result = $query->result_array();
             if (sizeof($result)>0) {
                 $dupString .= $project_id.', ';
             }
@@ -735,10 +719,7 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
         if ($platform=='') {
             $errMsg .='無法辨認專案網址平台'.PHP_EOL;
         }
-        $result = $this->getDatabaseResult(
-            "SELECT * FROM `project` WHERE 
-            `project_id` = '$project_id'"
-        );
+        $result = $this->get_where('project', array('project_id'=>$project_id));
         if (sizeof($result)!=0) {
             $errMsg .='已有專案代碼： '.$project_id.' 在系統中';
         }
@@ -764,9 +745,8 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
                 'leader'=>$leader
             )
         );
-        $result = $this->getDatabaseResult(
-            "SELECT * FROM `project` WHERE  `project_id` = '$project_id'"
-        );
+        $query = $this->db->get_where('project', array('project_id'=>$project_id));
+        $result = $query->result_array();
         if (sizeof($result)==0) {
             $response['status']='fail';
             $response['errorMessage']='無法寫入資料庫';
@@ -796,9 +776,8 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
     {
         $project_id = $this->input->post('project_id');
         $response = array('status' => 'success', 'errorMessage' => '');
-        $result = $this->getDatabaseResult(
-            "SELECT * FROM `project` WHERE  `project_id` = '$project_id'"
-        );
+        $query = $this->db->get_where('project', array('project_id'=>$project_id));
+        $result = $query->result_array();
         if (sizeof($result)==0) {
             $response["status"] = "fail";
             $response["errorMessage"] = "系統中專案代碼為 ".$project_id." 的專案已遭刪除.";
@@ -891,9 +870,8 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
             $this->replyWithJSON($response);
             return;
         }
-        $result = $this->getDatabaseResult(
-            "SELECT * FROM `project` WHERE  `project_id` = '$project_id'"
-        );
+        $query = $this->db->get_where('project', array('project_id'=>$project_id));
+        $result = $query->result_array();
         if (sizeof($result)==0) {
             $response["status"] = "fail";
             $response["errorMessage"] = "系統中專案代碼為 ".$project_id." 的專案已遭刪除.";
@@ -939,12 +917,16 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
      */
     public function getGenericData()
     {
-        $this->replyDatabaseRows("SELECT * FROM `project`");
+        $query = $this->db->get('project');
+        $result = $query->result_array();
+        $this->replyWithJSON($result);
     }
     public function getIds()
     {
         $output = array();
-        $result = $this->getDatabaseResult("SELECT `project_id` FROM `project`");
+        $this->db->select('project_id');
+        $query = $this->db->get('project');
+        $result = $query->result_array();
         foreach ($result as $id) {
             $output[]=$id['project_id'];
         }
@@ -966,9 +948,9 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
     {
         $project_id = $this->input->post('project_id');
         $this->logModel->logQuery($project_id, 'wiki');
-        $this->replyDatabaseRows(
-            "SELECT * FROM `wiki` WHERE `project_id` = '$project_id'"
-        );
+        $query = $this->db->get_where('wiki', array('project_id'=>$project_id));
+        $result = $query->result_array();
+        $this->replyWithJSON($result);
     }
     /**
      * Projects getWikiGraphSingleThreadData
@@ -986,9 +968,9 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
     public function getWikiGraphSingleThreadData()
     {
         $project_id = $this->input->post('project_id');
-        $this->replyDatabaseRows(
-            "SELECT * FROM `wiki_page` WHERE  `project_id` = '$project_id'"
-        );
+        $query = $this->db->get_where('wiki_page', array('project_id'=>$project_id));
+        $result = $query->result_array();
+        $this->replyWithJSON($result);
     }
     /**
      * Projects getVCSGraphData
@@ -1006,9 +988,9 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
     {
         $project_id = $this->input->post('project_id');
         $this->logModel->logQuery($project_id, 'vcs');
-        $this->replyDatabaseRows(
-            "SELECT * FROM `vcs` WHERE  `project_id` = '$project_id'"
-        );
+        $query = $this->db->get_where('vcs', array('project_id'=>$project_id));
+        $result = $query->result_array();
+        $this->replyWithJSON($result);
     }
     /**
      * Projects getVCSCommiterGraphData
@@ -1025,9 +1007,9 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
     public function getVCSCommiterGraphData()
     {
         $project_id = $this->input->post('project_id');
-        $this->replyDatabaseRows(
-            "SELECT * FROM `vcs_commiter` WHERE  `project_id` = '$project_id'"
-        );
+        $query = $this->db->get_where('vcs_commiter', array('project_id'=>$project_id));
+        $result = $query->result_array();
+        $this->replyWithJSON($result);
     }
     /**
      * Projects getIssueTrackerGraphData
@@ -1045,9 +1027,9 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
     {
         $project_id = $this->input->post('project_id');
         $this->logModel->logQuery($project_id, 'issuetracker');
-        $this->replyDatabaseRows(
-            "SELECT * FROM `issue` WHERE  `project_id` = '$project_id'"
-        );
+        $query = $this->db->get_where('issue', array('project_id'=>$project_id));
+        $result = $query->result_array();
+        $this->replyWithJSON($result);
     }
     /**
      * Projects getDownloadGraphData
@@ -1065,9 +1047,8 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
     {
         $project_id = $this->input->post('project_id');
         $this->logModel->logQuery($project_id, 'download');
-        $result = $this->getDatabaseResult(
-            "SELECT * FROM `download` WHERE  `project_id` = '$project_id'"
-        );
+        $query = $this->db->get_where('download', array('project_id'=>$project_id));
+        $result = $query->result_array();
         $map = array();
         foreach ($result as $value) {
             $key = $value['timestamp'];
@@ -1106,10 +1087,9 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
     public function getDownloadSingleFileGraphData()
     {
         $project_id = $this->input->post('project_id');
-        $this->replyDatabaseRows(
-            "SELECT * FROM `download` WHERE 
-            `project_id` = '$project_id'"
-        );
+        $query = $this->db->get_where('download', array('project_id'=>$project_id));
+        $result = $query->result_array();
+        $this->replyWithJSON($result);
     }
     /**
      * Projects getProxyGraphData
@@ -1127,10 +1107,9 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
     {
         $project_id = $this->input->post('project_id');
         $this->logModel->logQuery($project_id, 'proxy');
-        $result = $this->getDatabaseResult(
-            "SELECT * FROM  `crawl_status` WHERE `project_id` = '$project_id' 
-            ORDER BY `crawl_status`.`endtime` ASC"
-        );
+        $this->db->order_by('endtime', 'asc');
+        $query = $this->db->get_where('crawl_status', array('project_id'=>$project_id));
+        $result = $query->result_array();
         $map = array();
         foreach ($result as $value) {
             if (($value['status']=='')||($value['status']=='no_proxy')) {
@@ -1250,10 +1229,9 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
     {
         $project_id = $this->input->post('project_id');
         $this->logModel->logQuery($project_id, 'status');
-        $result = $this->getDatabaseResult(
-            "SELECT * FROM  `crawl_status` WHERE `project_id` 
-            = '$project_id' ORDER BY  `crawl_status`.`endtime` ASC"
-        );
+        $this->db->order_by('endtime', 'asc');
+        $query = $this->db->get_where('crawl_status', array('project_id'=>$project_id));
+        $result = $query->result_array();
         $map = array();
         foreach ($result as $value) {
             $day = $this->stripTime($value['endtime']);
