@@ -35,7 +35,8 @@ class Wisecamera_Log extends Wisecamera_CheckUser
         header("Content-type: application/json");
 
 
-        $query = $this->db->query("SELECT `user_id` FROM `user`");
+        $this->db->select("user_id");
+        $query = $this->db->get("user");
         $result = $query->result_array();
         if (sizeof($result) == 0) {
             $msg['status'] = 'empty';
@@ -64,12 +65,10 @@ class Wisecamera_Log extends Wisecamera_CheckUser
 
         header("Content-type: application/json");
 
-        $query = $this->db->query(
-            "SELECT `timestamp`,
-            `user_id`,`ip`,`action`  FROM `log` WHERE
-            `type`='user' and  `timestamp` < now()
-            ORDER BY `timestamp` DESC"
-        );
+        $this->db->select("timestamp, user_id, ip, action");
+	$this->db->where("type = 'user' AND timestamp < now()");
+	$this->db->order_by("timestamp","desc");
+        $query = $this->db->get("log");
         $result = $query->result_array();
         $data=$result;
         //var_dump($data);
@@ -91,11 +90,11 @@ class Wisecamera_Log extends Wisecamera_CheckUser
     {
 
         header("Content-type: application/json");
-        $query = $this->db->query(
-            "SELECT `timestamp`, `user_id`,`ip`,`action`
-            FROM `log` WHERE `type`='project' ORDER BY
-            `timestamp` DESC"
-        );
+
+        $this->db->select("timestamp, user_id, ip, action");
+	$this->db->where("type = 'project'");
+	$this->db->order_by("timestamp","desc");
+        $query = $this->db->get("log");
         $result = $query->result_array();
         for ($a=0; $a < sizeof($result); $a++) {
             $_array = explode(",", $result[$a]["action"]);
@@ -126,11 +125,12 @@ class Wisecamera_Log extends Wisecamera_CheckUser
     public function scheduleEdit()
     {
         header("Content-type: application/json");
-        $query = $this->db->query(
-            "SELECT `timestamp`, `user_id`,`ip`,
-            `action`  FROM `log` WHERE `type`='schedule'
-            ORDER BY `timestamp` DESC"
-        );
+
+        $this->db->select("timestamp, user_id, ip, action");
+	$this->db->where("type = 'schedule'");
+	$this->db->order_by("timestamp","desc");
+        $query = $this->db->get("log");
+        $result = $query->result_array();
         $result = $query->result_array();
         $dataCount =0;
         for ($a=0; $a < sizeof($result); $a++) {
@@ -158,12 +158,14 @@ class Wisecamera_Log extends Wisecamera_CheckUser
     {
         header("Content-type: application/json");
 
-        $query = $this->db->query(
-            "SELECT c.project_id, p.name, c.starttime, c.status, c.wiki,
-             c.vcs, c.issue,c.download,  c.endtime FROM crawl_status c,
-             project p WHERE c.project_id = p.project_id ORDER BY
-             c.starttime DESC"
-        );
+        $this->db->select(" crawl_status.project_id, project.name,
+         crawl_status.starttime, crawl_status.status, crawl_status.wiki,
+             crawl_status.vcs, crawl_status.issue,crawl_status.download,
+         crawl_status.endtime");
+	$this->db->order_by("crawl_status.starttime","desc");
+        $this->db->from("crawl_status");
+        $this->db->join("project", "crawl_status.project_id = project.project_id", "left");
+        $query = $this->db->get();
         $result = $query->result_array();
 
         for ($a=0; $a < sizeof($result); $a++) {
@@ -217,10 +219,11 @@ class Wisecamera_Log extends Wisecamera_CheckUser
     public function query()
     {
         header("Content-type: application/json");
-        $query = $this->db->query(
-            "SELECT `timestamp`, `user_id`,`ip`,`action`
-            FROM `log` WHERE `type`='query' ORDER BY `timestamp` DESC"
-        );
+
+        $this->db->select("timestamp, user_id, ip, action");
+	$this->db->where("type = 'query'");
+	$this->db->order_by("timestamp","desc");
+        $query = $this->db->get("log");
         $result = $query->result_array();
         $data=$result;
         echo json_encode($data);
@@ -240,10 +243,11 @@ class Wisecamera_Log extends Wisecamera_CheckUser
     public function deploy()
     {
         header("Content-type: application/json");
-        $query = $this->db->query(
-            "SELECT `timestamp`, `user_id`,`ip`,`action`  FROM `log` WHERE
-            `type`='server' ORDER BY `timestamp`DESC"
-        );
+
+        $this->db->select("timestamp, user_id, ip, action");
+	$this->db->where("type = 'server'");
+	$this->db->order_by("timestamp","desc");
+        $query = $this->db->get("log");
         $result = $query->result_array();
         $data=$result;
         echo json_encode($data);
