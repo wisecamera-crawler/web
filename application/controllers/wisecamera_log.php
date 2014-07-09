@@ -15,26 +15,26 @@
  */
 class Wisecamera_Log extends Wisecamera_CheckUser
 {
-	/**
+    /**
      * Obtain user list
-     * 
+     *
      * This function is to get user list in DB
-     * As a CI controller, the access path is : 
+     * As a CI controller, the access path is :
      *      <baseurl>/index.php/log/getUsers
      * If it success, it will return list of user's id in DB
      *
      *
      * @author Charlie Huang <huangckqq22@gmail.com>
      * @version 1.0
-     */   
+     */
     public function getUsers()
     {
         //echo 'In getUsers';
-        
-            
+
+
         header("Content-type: application/json");
-       
-    
+
+
         $query = $this->db->query("SELECT `user_id` FROM `user`");
         $result = $query->result_array();
         if (sizeof($result) == 0) {
@@ -45,12 +45,12 @@ class Wisecamera_Log extends Wisecamera_CheckUser
             //var_dump($data);
             echo json_encode($data);
         }
-    }	
+    }
     /**
      * get logs related user login
-     * 
+     *
      * This function is to logs related user login in DB
-     * As a CI controller, the access path is : 
+     * As a CI controller, the access path is :
      *      <baseurl>/index.php/log/userLogin
      * If it success, it will return list of logs related user login in DB
      *
@@ -65,9 +65,9 @@ class Wisecamera_Log extends Wisecamera_CheckUser
         header("Content-type: application/json");
 
         $query = $this->db->query(
-            "SELECT `timestamp`, 
-            `user_id`,`ip`,`action`  FROM `log` WHERE 
-            `type`='user' and  `timestamp` < now() 
+            "SELECT `timestamp`,
+            `user_id`,`ip`,`action`  FROM `log` WHERE
+            `type`='user' and  `timestamp` < now()
             ORDER BY `timestamp` DESC"
         );
         $result = $query->result_array();
@@ -75,11 +75,11 @@ class Wisecamera_Log extends Wisecamera_CheckUser
         //var_dump($data);
         echo json_encode($data);
     }
-	/**
+    /**
      * get logs related project editing
-     * 
+     *
      * This function is to logs related project editing in DB
-     * As a CI controller, the access path is : 
+     * As a CI controller, the access path is :
      *      <baseurl>/index.php/log/projectEdit
      * If it success, it will return list of logs related project editing in DB
      *
@@ -92,8 +92,8 @@ class Wisecamera_Log extends Wisecamera_CheckUser
 
         header("Content-type: application/json");
         $query = $this->db->query(
-            "SELECT `timestamp`, `user_id`,`ip`,`action` 
-            FROM `log` WHERE `type`='project' ORDER BY 
+            "SELECT `timestamp`, `user_id`,`ip`,`action`
+            FROM `log` WHERE `type`='project' ORDER BY
             `timestamp` DESC"
         );
         $result = $query->result_array();
@@ -111,11 +111,11 @@ class Wisecamera_Log extends Wisecamera_CheckUser
 //		var_dump($data);
         echo json_encode($data);
     }
-	/**
+    /**
      * get logs related schedule editing
-     * 
+     *
      * This function is to logs related schedule editing in DB
-     * As a CI controller, the access path is : 
+     * As a CI controller, the access path is :
      *      <baseurl>/index.php/log/scheduleEdit
      * If it success, it will return list of logs related schedule editing in DB
      *
@@ -128,7 +128,7 @@ class Wisecamera_Log extends Wisecamera_CheckUser
         header("Content-type: application/json");
         $query = $this->db->query(
             "SELECT `timestamp`, `user_id`,`ip`,
-            `action`  FROM `log` WHERE `type`='schedule' 
+            `action`  FROM `log` WHERE `type`='schedule'
             ORDER BY `timestamp` DESC"
         );
         $result = $query->result_array();
@@ -142,11 +142,11 @@ class Wisecamera_Log extends Wisecamera_CheckUser
         $data=$tempResult;
         echo json_encode($data);
     }
-	/**
+    /**
      * get logs related schedule executing
-     * 
+     *
      * This function is to logs related schedule executing in DB
-     * As a CI controller, the access path is : 
+     * As a CI controller, the access path is :
      *      <baseurl>/index.php/log/scheduleExe
      * If it success, it will return list of logs related schedule executing in DB
      *
@@ -159,10 +159,10 @@ class Wisecamera_Log extends Wisecamera_CheckUser
         header("Content-type: application/json");
 
         $query = $this->db->query(
-		"SELECT c.project_id, p.name, c.starttime, c.status, c.wiki,
-                 c.vcs, c.issue,c.download,  c.endtime FROM crawl_status c,
-                 project p WHERE c.project_id = p.project_id ORDER BY
-                 c.starttime DESC"
+            "SELECT c.project_id, p.name, c.starttime, c.status, c.wiki,
+             c.vcs, c.issue,c.download,  c.endtime FROM crawl_status c,
+             project p WHERE c.project_id = p.project_id ORDER BY
+             c.starttime DESC"
         );
         $result = $query->result_array();
 
@@ -178,7 +178,7 @@ class Wisecamera_Log extends Wisecamera_CheckUser
         echo json_encode($data);
 /*
         $query = $this->db->query(
-            "SELECT `timestamp`, `user_id`,`ip`,`action` 
+            "SELECT `timestamp`, `user_id`,`ip`,`action`
             FROM `log` WHERE `type`='schedule' ORDER BY `timestamp` ASC"
         );
         $result = $query->result_array();
@@ -202,11 +202,11 @@ class Wisecamera_Log extends Wisecamera_CheckUser
         echo json_encode($data);
 */
     }
-	/**
+    /**
      * get logs related searching
-     * 
+     *
      * This function is to logs related searching in DB
-     * As a CI controller, the access path is : 
+     * As a CI controller, the access path is :
      *      <baseurl>/index.php/log/query
      * If it success, it will return list of logs related searching in DB
      *
@@ -218,18 +218,18 @@ class Wisecamera_Log extends Wisecamera_CheckUser
     {
         header("Content-type: application/json");
         $query = $this->db->query(
-            "SELECT `timestamp`, `user_id`,`ip`,`action` 
+            "SELECT `timestamp`, `user_id`,`ip`,`action`
             FROM `log` WHERE `type`='query' ORDER BY `timestamp` DESC"
         );
         $result = $query->result_array();
         $data=$result;
         echo json_encode($data);
     }
-	/**
+    /**
      * get logs related servers deploying
-     * 
+     *
      * This function is to logs related servers deploying in DB
-     * As a CI controller, the access path is : 
+     * As a CI controller, the access path is :
      *      <baseurl>/index.php/log/deploy
      * If it success, it will return list of logs related servers deploying in DB
      *
@@ -241,7 +241,7 @@ class Wisecamera_Log extends Wisecamera_CheckUser
     {
         header("Content-type: application/json");
         $query = $this->db->query(
-            "SELECT `timestamp`, `user_id`,`ip`,`action`  FROM `log` WHERE 
+            "SELECT `timestamp`, `user_id`,`ip`,`action`  FROM `log` WHERE
             `type`='server' ORDER BY `timestamp`DESC"
         );
         $result = $query->result_array();
