@@ -66,8 +66,8 @@ class Wisecamera_Log extends Wisecamera_CheckUser
         header("Content-type: application/json");
 
         $this->db->select("timestamp, user_id, ip, action");
-	$this->db->where("type = 'user' AND timestamp < now()");
-	$this->db->order_by("timestamp","desc");
+        $this->db->where("type = 'user' AND timestamp < now()");
+        $this->db->order_by("timestamp", "desc");
         $query = $this->db->get("log");
         $result = $query->result_array();
         $data=$result;
@@ -92,8 +92,8 @@ class Wisecamera_Log extends Wisecamera_CheckUser
         header("Content-type: application/json");
 
         $this->db->select("timestamp, user_id, ip, action");
-	$this->db->where("type = 'project'");
-	$this->db->order_by("timestamp","desc");
+        $this->db->where("type = 'project'");
+        $this->db->order_by("timestamp", "desc");
         $query = $this->db->get("log");
         $result = $query->result_array();
         for ($a=0; $a < sizeof($result); $a++) {
@@ -127,8 +127,8 @@ class Wisecamera_Log extends Wisecamera_CheckUser
         header("Content-type: application/json");
 
         $this->db->select("timestamp, user_id, ip, action");
-	$this->db->where("type = 'schedule'");
-	$this->db->order_by("timestamp","desc");
+        $this->db->where("type = 'schedule'");
+        $this->db->order_by("timestamp", "desc");
         $query = $this->db->get("log");
         $result = $query->result_array();
         $result = $query->result_array();
@@ -158,11 +158,11 @@ class Wisecamera_Log extends Wisecamera_CheckUser
     {
         header("Content-type: application/json");
 
-        $this->db->select(" crawl_status.project_id, project.name,
-         crawl_status.starttime, crawl_status.status, crawl_status.wiki,
-             crawl_status.vcs, crawl_status.issue,crawl_status.download,
-         crawl_status.endtime");
-	$this->db->order_by("crawl_status.starttime","desc");
+        $this->db->select(
+            "crawl_status.project_id, project.name, crawl_status.starttime, crawl_status.status,
+        crawl_status.wiki, crawl_status.vcs, crawl_status.issue,crawl_status.download, crawl_status.endtime"
+        );
+        $this->db->order_by("crawl_status.starttime", "desc");
         $this->db->from("crawl_status");
         $this->db->join("project", "crawl_status.project_id = project.project_id", "left");
         $query = $this->db->get();
@@ -221,8 +221,8 @@ class Wisecamera_Log extends Wisecamera_CheckUser
         header("Content-type: application/json");
 
         $this->db->select("timestamp, user_id, ip, action");
-	$this->db->where("type = 'query'");
-	$this->db->order_by("timestamp","desc");
+        $this->db->where("type = 'query'");
+        $this->db->order_by("timestamp", "desc");
         $query = $this->db->get("log");
         $result = $query->result_array();
         $data=$result;
@@ -245,8 +245,8 @@ class Wisecamera_Log extends Wisecamera_CheckUser
         header("Content-type: application/json");
 
         $this->db->select("timestamp, user_id, ip, action");
-	$this->db->where("type = 'server'");
-	$this->db->order_by("timestamp","desc");
+        $this->db->where("type = 'server'");
+        $this->db->order_by("timestamp", "desc");
         $query = $this->db->get("log");
         $result = $query->result_array();
         $data=$result;
