@@ -14,7 +14,6 @@
  * @link     none
  */
 
-
 /**
  * A controller for communication interface between proxy and main server
  *
@@ -24,16 +23,16 @@
  * @package  Wisecamera
  * @author   Poyu Chen <poyu677@gmail.com>
  * @license  none <none>
- * @version  Release: <package_version> 
+ * @version  Release: <package_version>
  * @link     none
  */
 class Wisecamera_Proxy extends CI_Controller
 {
     /**
      * Proxy register
-     * 
+     *
      * This function accpet the proxy's connection and record in DB
-     * As a CI controller, the access path is : 
+     * As a CI controller, the access path is :
      *      <baseurl>/index.php/proxy/register/<ip>/<port>
      * If register success, it will return `success` message,
      * else it will report error, and show the error type
@@ -61,6 +60,7 @@ class Wisecamera_Proxy extends CI_Controller
 
         if ($checkIP == false or $checkPort == false) {
             echo "fail : format invalid";
+
             return;
         }
 
@@ -74,7 +74,7 @@ class Wisecamera_Proxy extends CI_Controller
                     VALUES('$ip', '$port', 'on-line')"
             );
             $q2 = $this->db->query(
-                "INSERT INTO `log` (`user_id`, `ip`, `type`, `action`) 
+                "INSERT INTO `log` (`user_id`, `ip`, `type`, `action`)
                     VALUES('', '$ip', 'server', 'Proxy Server 完成佈屬')"
             );
 
@@ -104,11 +104,11 @@ class Wisecamera_Proxy extends CI_Controller
 
         return;
     }
-	/**
+    /**
      * Obtain proxy servers list
-     * 
+     *
      * This function is to get proxy servers list in DB
-     * As a CI controller, the access path is : 
+     * As a CI controller, the access path is :
      *      <baseurl>/index.php/proxy/getProxyList
      * If it success, it will return list of proxy servers in DB
      *
@@ -116,85 +116,105 @@ class Wisecamera_Proxy extends CI_Controller
      * @author Charlie Huang <huangckqq22@gmail.com>
      * @version 1.0
      */
-	public function getProxyList(){
-	    header("Content-type: application/json");
+    public function getProxyList()
+    {
+        header("Content-type: application/json");
 
 
-	    $query = $this->db->query("SELECT `proxy_ip`,`status` FROM `proxy`");
-	    $result = $query->result_array();
-	    if(sizeof($result) == 0){
-		    $msg['status'] = 'empty';
-		    echo '0';
-	    }else{
-		    $data=$result;		    
-		    echo json_encode($data);
-	    }
+        $query = $this->db->query("SELECT `proxy_ip`,`status` FROM `proxy`");
+        $result = $query->result_array();
+        if (sizeof($result) == 0) {
+            $msg['status'] = 'empty';
+            echo '0';
+        } else {
+            $data=$result;
+            echo json_encode($data);
+        }
     }
-	/**
+    /**
      * changing the proxy servers status in DB
-     * 
+     *
      * This function is to change the proxy servers status in DB
-	 * and write the log to the DB
-     * As a CI controller, the access path is : 
+     * and write the log to the DB
+     * As a CI controller, the access path is :
      *      <baseurl>/index.php/proxy/work
      * @return none
      *
      * @author Charlie Huang <huangckqq22@gmail.com>
      * @version 1.0
      */
-    public function work(){
-	
-	    $account = $this->input->post('account');
+    public function work()
+    {
+        $account = $this->input->post('account');
 //	    var_dump($account);
 
-	    $query = $this->db->query("SELECT `proxy_ip`,`status` FROM `proxy`");
-	    $result = $query->result_array();
-	    if(sizeof($result) == 0){
-		    $msg['status'] = 'empty';
-		    echo '0';
-	    }else{
-		
-		for($a=0;$a<sizeof($result);$a++){
-			if($account[$a]=="0"){
-				if($result[$a]["status"] != "disable"){
-					$result[$a]["status"]= "disable";
-					//SQL update
-					$this->db->update('proxy',array('status'=>"disable"),array('proxy_ip'=> $result[$a]["proxy_ip"]));	
+        $query = $this->db->query("SELECT `proxy_ip`,`status` FROM `proxy`");
+        $result = $query->result_array();
+        if (sizeof($result) == 0) {
+            $msg['status'] = 'empty';
+            echo '0';
+        } else {
+            for ($a=0; $a<sizeof($result); $a++) {
+                if ($account[$a]=="0") {
+                    if ($result[$a]["status"] != "disable") {
+                        $result[$a]["status"]= "disable";
+                        //SQL update
+                        $this->db->update(
+                            'proxy',
+                            array('status'=>"disable"),
+                            array('proxy_ip'=> $result[$a]["proxy_ip"])
+                        );
 
-					//SQL insert record	
-					$proxyIp = $result[$a]['proxy_ip'];
-					$user_id = $this->session->userdata('ACCOUNT');
-					$user_ip = $_SERVER['REMOTE_ADDR'];
-					$action ="使用者$user_id 將server($proxyIp) 停止啟用";
-					$currentTime = new DateTime(null, new DateTimeZone($this->config->item('time_zone')));
-					$this->db->insert('log',array('user_id'=>"$user_id", 'ip'=>"$user_ip", 'type'=>'server', 'action'=>$action, 'timestamp'=>$currentTime->format('Y-m-d H:i:s')));
+                        //SQL insert record
+                        $proxyIp = $result[$a]['proxy_ip'];
+                        $user_id = $this->session->userdata('ACCOUNT');
+                        $user_ip = $_SERVER['REMOTE_ADDR'];
+                        $action ="使用者$user_id 將server($proxyIp) 停止啟用";
+                        $currentTime = new DateTime(null, new DateTimeZone($this->config->item('time_zone')));
+                        $this->db->insert(
+                            'log',
+                            array(
+                                'user_id'=>"$user_id",
+                                'ip'=>"$user_ip",
+                                'type'=>'server',
+                                'action'=>$action,
+                                'timestamp'=>$currentTime->format('Y-m-d H:i:s')
+                            )
+                        );
+                    }
+                } else {
+                    if ($result[$a]["status"] == "disable") {
+                        $result[$a]["status"] = "off-line";
+                        //SQL update
+                        $this->db->update(
+                            'proxy',
+                            array('status'=>"off-line"),
+                            array('proxy_ip'=> $result[$a]["proxy_ip"])
+                        );
 
-				}
-			}else{
-				if($result[$a]["status"] == "disable"){
-					$result[$a]["status"] = "off-line";
-					//SQL update
-					$this->db->update('proxy',array('status'=>"off-line"),array('proxy_ip'=> $result[$a]["proxy_ip"]));	
-
-					//SQL insert record			
-					$proxyIp = $result[$a]['proxy_ip'];
-					$user_id = $this->session->userdata('ACCOUNT');
-					$user_ip = $_SERVER['REMOTE_ADDR'];
-					$action ="使用者$user_id 將server($proxyIp) 啟用";
-					$currentTime = new DateTime(null, new DateTimeZone($this->config->item('time_zone')));
-					$this->db->insert('log',array('user_id'=>"$user_id", 'ip'=>"$user_ip", 'type'=>'server', 'action'=>$action, 'timestamp'=>$currentTime->format('Y-m-d H:i:s')));
-				}
-			}
-
-
-		}
-
-
-
-		$data=$result;
+                        //SQL insert record
+                        $proxyIp = $result[$a]['proxy_ip'];
+                        $user_id = $this->session->userdata('ACCOUNT');
+                        $user_ip = $_SERVER['REMOTE_ADDR'];
+                        $action ="使用者$user_id 將server($proxyIp) 啟用";
+                        $currentTime = new DateTime(null, new DateTimeZone($this->config->item('time_zone')));
+                        $this->db->insert(
+                            'log',
+                            array(
+                                'user_id'=>"$user_id",
+                                'ip'=>"$user_ip",
+                                'type'=>'server',
+                                'action'=>$action,
+                                'timestamp'=>$currentTime->format('Y-m-d H:i:s')
+                            )
+                        );
+                    }
+                }
+            }
+            $data=$result;
 //		var_dump($this->userIP);
 //		echo json_encode($data);
-	    }
+        }
 
     }
 }
