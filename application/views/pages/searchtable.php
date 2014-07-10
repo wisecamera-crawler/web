@@ -125,6 +125,8 @@
   <span>顯示：
 		<select class="displaytype">
 		  <option value="totalthreads">主題總數</option>
+          <option value="openthreads">Open主題數</option>
+          <option value="closethreads">Close主題數</option>
 		  <option value="totalreplies">回應總數</option>
 		  <option value="totalaccounts">不同帳號總數</option>
 		</select>

@@ -865,6 +865,22 @@ function plotissuetrackerviewer() {
     plottrendgraph('issuetrackergraph', '日期', '不同帳號總數', line, $(
         '#issuetrackerviewer .numdatas :selected').val(), 'Issue Tracker 圖表');
 
+  } else if (dt == 'openthreads') {
+    var line = [];
+    for (var i = 0; i < issuetrackerdata.length; ++i) {
+      line.push([issuetrackerdata[i].timestamp, issuetrackerdata[i].open]);
+    }
+    plottrendgraph('issuetrackergraph', '日期', 'Open主題數', line, $(
+        '#issuetrackerviewer .numdatas :selected').val(), 'Issue Tracker 圖表');
+
+  } else if (dt == 'closethreads') {
+    var line = [];
+    for (var i = 0; i < issuetrackerdata.length; ++i) {
+      line.push([issuetrackerdata[i].timestamp, issuetrackerdata[i].close]);
+    }
+    plottrendgraph('issuetrackergraph', '日期', 'close主題數', line, $(
+        '#issuetrackerviewer .numdatas :selected').val(), 'Issue Tracker 圖表');
+
   }
 }
 var vcsdata = [];
