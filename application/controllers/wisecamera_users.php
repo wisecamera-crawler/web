@@ -28,7 +28,7 @@ class Wisecamera_Users extends CI_Controller
 {
     /**
      * Constructor
-     * 
+     *
      * This contructor will initialize the required model <LogModel>
      * and <UserModel>.
      *
@@ -45,7 +45,7 @@ class Wisecamera_Users extends CI_Controller
     }
     /**
      * Users logout
-     * 
+     *
      * This function will logout a user and destroy their session. The
      * information is logged using the <LogModel>. It will then redirect
      * the user agent to the login page.
@@ -63,7 +63,7 @@ class Wisecamera_Users extends CI_Controller
     }
     /**
      * Users resetWithHash
-     * 
+     *
      * This function will check if the user entered hash matches the one
      * in the database. If so it will replace the password for the user.
      *
@@ -73,7 +73,7 @@ class Wisecamera_Users extends CI_Controller
      */
     public function resetWithHash()
     {
-        
+
         $hash = $this->input->post('hash');
         $account = $this->input->post('account');
         $password = $this->input->post('password');
@@ -114,7 +114,7 @@ class Wisecamera_Users extends CI_Controller
     }
     /**
      * Users login
-     * 
+     *
      * This function will login a user and put their account name into the session
      * information is logged using the <LogModel>. It will then redirect
      * the user agent to the searchtable page.
@@ -165,7 +165,7 @@ class Wisecamera_Users extends CI_Controller
     }
     /**
      * Users login
-     * 
+     *
      * This function will login a user with their google open id and put
      * their account name(their google email) into the session.
      * If it is their first time on the system, the system will register
@@ -209,7 +209,7 @@ class Wisecamera_Users extends CI_Controller
     }
     /**
      * Users register
-     * 
+     *
      * This function will register a new user account in the system. The
      * account information is retrieved from the post body. It will then
      * check if the inputs are valid, depending on the result the output
@@ -293,7 +293,7 @@ class Wisecamera_Users extends CI_Controller
     }
     /**
      * Users forgotpw
-     * 
+     *
      * This function will retrieve the password of the account contained
      * in the HTTP post body and send it to the registered email account.
      * It'll check if the input is valid, depending on the result the output

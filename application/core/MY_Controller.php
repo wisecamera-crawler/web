@@ -27,7 +27,7 @@ class Wisecamera_CheckUser extends CI_Controller
 {
     /**
      * Constructor
-     * 
+     *
      * This contructor will initialize the required model <EmailModel>.
      *
      * @return This Email controller.
@@ -58,7 +58,7 @@ class Wisecamera_CheckUser extends CI_Controller
     }
     /**
      * CheckUser sessionValid
-     * 
+     *
      * This function checks the session of the user, if the session
      * is expired or doesn't exist, then it will throw an error.
      *

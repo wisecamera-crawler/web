@@ -29,7 +29,7 @@ class Wisecamera_ProjectModel extends CI_Model
 {
     /**
      * Constructor
-     * 
+     *
      * Initializes this model
      *
      * @return This ProjectModel Model.
@@ -43,7 +43,7 @@ class Wisecamera_ProjectModel extends CI_Model
     }
     /**
      * ProjectModel checkProjectExists
-     * 
+     *
      * This function checks if a project with id = $project_id exists in the
      * system.
      *
@@ -67,7 +67,7 @@ class Wisecamera_ProjectModel extends CI_Model
     }
     /**
      * ProjectModel checkMultipleProjectExists
-     * 
+     *
      * This function checks if all the projects with ids contained in
      * $projectid_arr exists in the system.
      *
@@ -94,7 +94,7 @@ class Wisecamera_ProjectModel extends CI_Model
     }
     /**
      * ProjectModel getValidProjectTypes
-     * 
+     *
      * This function loops through all the projects and generates an array
      * that contains all the valid project types.
      *
@@ -121,7 +121,7 @@ class Wisecamera_ProjectModel extends CI_Model
     }
     /**
      * ProjectModel getValidProjectYears
-     * 
+     *
      * This function loops through all the projects and generates an array
      * that contains all the valid project years.
      *

@@ -30,7 +30,7 @@ class Wisecamera_Schedules extends Wisecamera_CheckUser
 {
     /**
      * Constructor
-     * 
+     *
      * This contructor will initialize the required model <LogModel>
      * and <ScheduleModel>.
      *
@@ -47,7 +47,7 @@ class Wisecamera_Schedules extends Wisecamera_CheckUser
     }
     /**
      * Schedules getSchedules
-     * 
+     *
      * This function replies directly to the user agent, it will reply with a
      * json encoded array of schedules in the database.
      *
@@ -64,7 +64,7 @@ class Wisecamera_Schedules extends Wisecamera_CheckUser
     }
     /**
      * Schedules deleteSchedule
-     * 
+     *
      * This function will get a schedule id from the HTTP post body.
      * This schedule id will then be used to delete a schedule in the database
      * Depending on the result of the delete, this function will reply with a
@@ -97,7 +97,7 @@ class Wisecamera_Schedules extends Wisecamera_CheckUser
     }
     /**
      * Schedules insertSchedule
-     * 
+     *
      * This function will get the attributes of a schedule from the post
      * body. This schedule id will then be used to insert a schedule in
      * the database.

@@ -28,7 +28,7 @@ class Wisecamera_Email extends Wisecamera_CheckUser
 {
     /**
      * Constructor
-     * 
+     *
      * This contructor will initialize the required model <EmailModel>.
      *
      * @return This Email controller.
@@ -43,10 +43,10 @@ class Wisecamera_Email extends Wisecamera_CheckUser
     }
     /**
      * Email insertEmail
-     * 
+     *
      * This function will insert the email account in the HTTP POST body into
      * the database for future use.
-     * As a CI controller, the access path is : 
+     * As a CI controller, the access path is :
      *      <baseurl>/index.php/email/insertemail
      * If register success, it will output a JSON object with `status` field
      * `success`; otherwise it will output the same object with `error`.
@@ -62,17 +62,17 @@ class Wisecamera_Email extends Wisecamera_CheckUser
         header("Content-type: application/json");
         $output = array('status' => 'success');
         if (!$this->emailModel->insertEmail($email)) {
-                $output['status'] = 'error';
+            $output['status'] = 'error';
         }
         echo json_encode($output);
     }
     /**
      * Email deleteEmail
-     * 
+     *
      * This function will delete the email account in the HTTP POST body from
      * the database. This will prevent this email account from getting
      * notifications in the future.
-     * As a CI controller, the access path is : 
+     * As a CI controller, the access path is :
      *      <baseurl>/index.php/email/deleteemail
      * If delete success, it will output a JSON object with `status` field
      * `success`; otherwise it will output the same object with `error`.
@@ -88,7 +88,7 @@ class Wisecamera_Email extends Wisecamera_CheckUser
         header("Content-type: application/json");
         $output = array('status' => 'success');
         if (!$this->emailModel->deleteEmail($email)) {
-                $output['status'] = 'error';
+            $output['status'] = 'error';
         }
         echo json_encode($output);
     }

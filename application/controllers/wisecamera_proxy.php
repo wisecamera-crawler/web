@@ -88,7 +88,7 @@ class Wisecamera_Proxy extends CI_Controller
                     "action"=>"Proxy Server 完成佈屬"
                 )
             );
-            
+
             if ($q1 == false  or $q2 == false) {
                 echo "fail : DB error";
             } else {
