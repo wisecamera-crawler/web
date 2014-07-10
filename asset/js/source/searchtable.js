@@ -870,7 +870,7 @@ function plotissuetrackerviewer() {
     for (var i = 0; i < issuetrackerdata.length; ++i) {
       line.push([issuetrackerdata[i].timestamp, issuetrackerdata[i].open]);
     }
-    plottrendgraph('issuetrackergraph', '日期', 'Open主題數', line, $(
+    plottrendgraph('issuetrackergraph', '日期', 'open主題數', line, $(
         '#issuetrackerviewer .numdatas :selected').val(), 'Issue Tracker 圖表');
 
   } else if (dt == 'closethreads') {
