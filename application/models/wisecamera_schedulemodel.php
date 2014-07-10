@@ -30,7 +30,7 @@ class Wisecamera_ScheduleModel extends CI_Model
 {
     /**
      * Constructor
-     * 
+     *
      * Initializes this model
      *
      * @return This ScheduleModel Model.
@@ -44,8 +44,8 @@ class Wisecamera_ScheduleModel extends CI_Model
     }
     /**
      * ScheduleModel intToWeekDay
-     * 
-     * This private function maps a string containing an int to the 
+     *
+     * This private function maps a string containing an int to the
      * Chinese weekday string. For '0', it means the schedule does not use
      * the week period so it returns an empty string ''. For '1'~'7' the
      * function returns a weekday in Chinese.
@@ -92,10 +92,10 @@ class Wisecamera_ScheduleModel extends CI_Model
     }
     /**
      * ScheduleModel stripDate
-     * 
+     *
      * This private function takes a string representing a date and time and
      * returns only the hour and minutes string.
-     * 
+     *
      * @param string $datetime string representing a date and time
      *
      * @return string Only contains the hour and minute.
@@ -132,11 +132,11 @@ class Wisecamera_ScheduleModel extends CI_Model
     }
     /**
      * ScheduleModel translateAll
-     * 
+     *
      * This private function takes a string argument, if the string is 'all',
      * it will return the Chinese translation of it, otherwise it will return
      * the original string.
-     * 
+     *
      * @param string $str The string representing the year/type of the schedule.
      *
      * @return string if $str = 'all' returns the Chinese of 'all'; Else
@@ -155,7 +155,7 @@ class Wisecamera_ScheduleModel extends CI_Model
     }
     /**
      * ScheduleModel getScheduleDataString
-     * 
+     *
      * This function takes a string argument $schedule_id, it will
      * use that id to get the schedule data from the database, and then
      * generate a string representing the data of the schedule.
@@ -227,7 +227,7 @@ class Wisecamera_ScheduleModel extends CI_Model
     }
     /**
      * ScheduleModel getSchedules
-     * 
+     *
      * This function will get all the schedules in the `schedule` table and
      * all the group data in `schedule_group` table, and then generate a
      * string representing each of the schedules and put them into two
@@ -316,7 +316,7 @@ class Wisecamera_ScheduleModel extends CI_Model
     }
     /**
      * ScheduleModel deleteSchedule
-     * 
+     *
      * This function will delete a schedule with id = $schedule_id
      * from the database.
      *
@@ -341,7 +341,7 @@ class Wisecamera_ScheduleModel extends CI_Model
     }
     /**
      * ScheduleModel isScheduleAndGroupInputLegal
-     * 
+     *
      * This function checks if the input arguments are valid to create a
      * schedule in the system.
      *
@@ -420,7 +420,7 @@ class Wisecamera_ScheduleModel extends CI_Model
     }
     /**
      * ScheduleModel insertScheduleAndGroup
-     * 
+     *
      * This function inserts a new schedule into the system, this operation
      * consists of two parts:
      * 1. inserting the schedule data into the `schedule` table.
@@ -485,7 +485,7 @@ class Wisecamera_ScheduleModel extends CI_Model
     }
     /**
      * ScheduleModel insertScheduleAndGroup
-     * 
+     *
      * This function inserts a new schedule group in the
      * `schedule_group` table with year/type combination as the target. It
      * associates the group elements with the schedule with id = $schedule_id
@@ -509,7 +509,7 @@ class Wisecamera_ScheduleModel extends CI_Model
     }
     /**
      * ScheduleModel insertScheduleGroupProjectIds
-     * 
+     *
      * This function inserts a new schedule group in the
      * `schedule_group` table with a list of project ids as target. It
      * associates the group elements with the schedule with id = $schedule_id
@@ -536,7 +536,7 @@ class Wisecamera_ScheduleModel extends CI_Model
     }
     /**
      * ScheduleModel insertScheduleGroupProjectIds
-     * 
+     *
      * This function inserts a new schedule in the `schedule` table with all
      * the timing information.
      *

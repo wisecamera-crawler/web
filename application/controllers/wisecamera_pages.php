@@ -16,11 +16,11 @@
 /**
  * This controller is used for rendering pages to the user-agent, the pages are
  * mainly composed of three parts: header, body, footer.
- * The header contains links to the needed extension libraries and also a 
+ * The header contains links to the needed extension libraries and also a
  * visual header in the web page that will contain the Chinese title of
  * the page, user information, navigation bar and a log out button.
  * The body will be rendered using different views in the project, depending
- * on which page the user is visiting this controller will load the 
+ * on which page the user is visiting this controller will load the
  * corresponding view.
  *
  * The footer just contains html tags to finish up the html document.
@@ -43,7 +43,7 @@ class Wisecamera_Pages extends CI_Controller
 {
     /**
      * Constructor
-     * 
+     *
      * This contructor will initialize the required model <LogModel>.
      *
      * @return This Pages controller.
@@ -58,10 +58,10 @@ class Wisecamera_Pages extends CI_Controller
     }
     /**
      * Pages view
-     * 
+     *
      * This function will render the view according to the url of the user
      * agent.
-     * As a CI controller, the access path is : 
+     * As a CI controller, the access path is :
      *      <baseurl>/index.php/pages/view/<page_name>
      * If the view exists under <baseurl>/codeigniter/application/views/pages/
      * then that view file will be used to render the body of the view.

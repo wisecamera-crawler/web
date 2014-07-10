@@ -42,7 +42,7 @@ class Wisecamera_EmailModel extends CI_Model
     }
     /**
      * EmailModel insertEmail
-     * 
+     *
      * This function inserts an email into the notification email list. Any
      * email in the list will be notified by the system if some huge error
      * occurs.
@@ -60,7 +60,7 @@ class Wisecamera_EmailModel extends CI_Model
     }
     /**
      * EmailModel deleteEmail
-     * 
+     *
      * This function deletes a email from the notification email list. After
      * this operation the email will no longer be notified of errors.
      *
@@ -78,7 +78,7 @@ class Wisecamera_EmailModel extends CI_Model
     }
     /**
      * EmailModel getEmail
-     * 
+     *
      * This function retrieves the notification email list from database.
      * Then it returns it as an string array.
      *

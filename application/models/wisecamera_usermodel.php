@@ -28,7 +28,7 @@ class Wisecamera_UserModel extends CI_Model
 {
     /**
      * Constructor
-     * 
+     *
      * Initializes this model
      *
      * @return This UserModel Model.
@@ -42,7 +42,7 @@ class Wisecamera_UserModel extends CI_Model
     }
     /**
      * UserModel checkAccountExists
-     * 
+     *
      * This function checks if an account exists in the system.
      *
      * @param string $account The account name to be checked.
@@ -66,7 +66,7 @@ class Wisecamera_UserModel extends CI_Model
     }
     /**
      * UserModel registerUser
-     * 
+     *
      * This function registers a new user into the system using the input
      * arguments.
      *

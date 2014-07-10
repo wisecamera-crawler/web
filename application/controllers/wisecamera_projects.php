@@ -30,7 +30,7 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
 {
     /**
      * Constructor
-     * 
+     *
      * This contructor will initialize the required model <LogModel>
      * and <ProjectModel>.
      *
@@ -47,7 +47,7 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
     }
     /**
      * Projects stripTime
-     * 
+     *
      * This private function will strip away the time from a date string.
      *
      * @param string $date a string that represents date and time.
@@ -65,7 +65,7 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
     }
     /**
      * Projects replyWithJSON
-     * 
+     *
      * This private function will send the proper header and json encode an
      * php object/array then send it to the user agent.
      *
@@ -97,7 +97,7 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
     }
     /**
      * Projects verifyProjectParameters
-     * 
+     *
      * This private function will verify whether the arguments are legal to
      * construct a project in the system with.
      * @param string $project_id The project's identifier.
@@ -145,10 +145,10 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
     }
     /**
      * Projects verifyProjectParameters
-     * 
+     *
      * This private function will contruct a php array that contains
      * all the data of each project.
-     * @param xmlDOM $document The uploaded xml document for batch 
+     * @param xmlDOM $document The uploaded xml document for batch
      * import/update projects. The format of the document should be like:
      * <?xml version="1.0" encoding="utf-8"?>
      *    <importdesc>
@@ -194,7 +194,7 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
      *        </project>
      *    </importdesc>
      *
-     * @return array If any of the input is not legal, returns false; Else 
+     * @return array If any of the input is not legal, returns false; Else
      * returns the array of input put into an array.
      * @author Kai Yuen <keeperkai@msn.com>
      * @version 1.0
@@ -226,7 +226,7 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
     }
     /**
      * Projects updateProject
-     * 
+     *
      * This private function will update a project in the database and do
      * logging on success.
      * @param array $project The associative array containing the attributes
@@ -265,7 +265,7 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
     }
     /**
      * Projects insertProject
-     * 
+     *
      * This private function will insert a project into the database and do
      * logging on success.
      * @param array $project The associative array containing the attributes
@@ -304,7 +304,7 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
     }
     /**
      * Projects insertProject
-     * 
+     *
      * This private function will insert/update a project into the database
      * depending on the id of the project. If a project with the same id
      * already exists in the database it will use the arguments to update
@@ -353,7 +353,7 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
     }
     /**
      * Projects batchImportProjects
-     * 
+     *
      * This private function will insert/update multiple projects into database
      * depending on the id of the projects. If a project with the same id
      * already exists in the database it will use the arguments to update
@@ -370,7 +370,7 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
      * url : The link to the project home.
      * leader : The leader of this project.
      *
-     * @return string If it fails to insert/update to database, returns a 
+     * @return string If it fails to insert/update to database, returns a
      * string saying it was unable to update or insert the project with which
      * id; Else return an empty string.
      *
@@ -390,7 +390,7 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
     }
     /**
      * Projects uploadBatch
-     * 
+     *
      * This function will get the xml string from HTTP Post body, the xml
      * string contains the information to perform a batch insert/update
      * projects. The format of the xml string should be like :
@@ -489,7 +489,7 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
     }
     /**
      * Projects findDuplicateProjects
-     * 
+     *
      * This private function will check if any of the projects in the argument
      * array already exist in the database.
      *
@@ -522,7 +522,7 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
     }
     /**
      * Projects checkAttributeLength
-     * 
+     *
      * This private function will check if any of the attributes in the
      * projects are too long, if so it returns a human readable error
      * message. If no attributes were too long, it returns ''.
@@ -560,7 +560,7 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
     }
     /**
      * Projects checkUploadBatch
-     * 
+     *
      * This function will check if any of the projects in the argument
      * array already exist in the database. If so, the function will reply to
      * the user agent with a JSON object saying that some projects already
@@ -640,7 +640,7 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
                     return;
                 }
                 $dupMsg = $this->findDuplicateProjects($projects);
-                
+
                 if ($dupMsg == '') {
                     $data['errorMessage'] = $this->batchImportProjects($projects);
                     if ($data['errorMessage']=='') {
@@ -672,7 +672,7 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
     }
     /**
      * Projects setNewProject
-     * 
+     *
      * This function will check if the arguments in the Post body can be used
      * to construct a project in the database. If not, then reply to the user
      * agent with an error message; otherwise, insert the project into the
@@ -757,7 +757,7 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
     }
     /**
      * Projects deleteProject
-     * 
+     *
      * This function will check if the arguments in the Post body can be used
      * to delete a project in the database. If not, then reply to the user
      * agent with an error message; otherwise, delete the project from the
@@ -798,7 +798,7 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
     }
     /**
      * Projects modifyProject
-     * 
+     *
      * This function will check if the arguments in the Post body can be used
      * to modify a project in the database. If not, then reply to the user
      * agent with an error message; otherwise, modify the project in the
@@ -906,7 +906,7 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
     }
     /**
      * Projects getGenericData
-     * 
+     *
      * This function will return all the projects in the database as an array
      * and send it to the user agent with JSON encoding.
      *
@@ -934,7 +934,7 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
     }
     /**
      * Projects getWikiGraphData
-     * 
+     *
      * This function will reply all the data needed to plot a wiki graph for
      * the project with the `project_id` contained in the post body as a JSON
      * array.
@@ -954,7 +954,7 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
     }
     /**
      * Projects getWikiGraphSingleThreadData
-     * 
+     *
      * This function will reply all the data needed to plot wiki single thread
      * graph for the project with the `project_id` contained in the post body
      * as a JSON
@@ -974,7 +974,7 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
     }
     /**
      * Projects getVCSGraphData
-     * 
+     *
      * This function will reply all the data needed to plot a vcs graph for
      * the project with the `project_id` contained in the post body as a JSON
      * array.
@@ -994,7 +994,7 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
     }
     /**
      * Projects getVCSCommiterGraphData
-     * 
+     *
      * This function will reply all the data needed to plot vcs commiter
      * graph for the project with the `project_id` contained in the post body
      * as a JSON array.
@@ -1013,7 +1013,7 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
     }
     /**
      * Projects getIssueTrackerGraphData
-     * 
+     *
      * This function will reply all the data needed to plot issue tracker
      * graph for the project with the `project_id` contained in the post body
      * as a JSON array.
@@ -1033,7 +1033,7 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
     }
     /**
      * Projects getDownloadGraphData
-     * 
+     *
      * This function will reply all the data needed to plot download
      * graph for the project with the `project_id` contained in the post body
      * as a JSON array.
@@ -1074,7 +1074,7 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
     }
     /**
      * Projects getDownloadGraphData
-     * 
+     *
      * This function will reply all the data needed to plot download
      * graph of a single file for the project with the `project_id`
      * contained in the post body as a JSON array.
@@ -1093,7 +1093,7 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
     }
     /**
      * Projects getProxyGraphData
-     * 
+     *
      * This function will reply all the data needed to plot proxy
      * graph for the project with the `project_id`
      * contained in the post body as a JSON array.
@@ -1156,7 +1156,7 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
     }
     /**
      * Projects initProxyArray
-     * 
+     *
      * This private function will initialize an proxy graph data array element
      *
      * @return none.
@@ -1174,7 +1174,7 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
     }
     /**
      * Projects updateStatusMap
-     * 
+     *
      * This private function will calculate the all_fail and all_success
      * fields of a status map element.
      *
@@ -1215,7 +1215,7 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
     }
     /**
      * Projects getStatusGraphData
-     * 
+     *
      * This function will reply all the data needed to plot status
      * graph for the project with the `project_id`
      * contained in the post body as a JSON array.
@@ -1252,7 +1252,7 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
     }
     /**
      * Projects getProjectModificationHistory
-     * 
+     *
      * This function will reply all the modification history of the project
      * with the `project_id` contained in the post body as a JSON array.
      * The structure of the JSON object is :
@@ -1282,7 +1282,7 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
     }
     /**
      * Projects getValidProjectTypes
-     * 
+     *
      * This function will reply all the valid project types in the database
      * to the user agent.
      *
@@ -1297,7 +1297,7 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
     }
     /**
      * Projects getValidProjectYears
-     * 
+     *
      * This function will reply all the valid project years in the database
      * to the user agent.
      *
