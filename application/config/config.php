@@ -357,28 +357,7 @@ $config['rewrite_short_tags'] = FALSE;
 */
 $config['proxy_ips'] = '';
 
-
-/* End of file config.php */
-/* Location: ./application/config/config.php */
-
-/**
-| -------------------------------------------------------------------
-|  Native Auto-load
-| -------------------------------------------------------------------
-|
-| Nothing to do with config/autoload.php, this allows PHP autoload to work
-| for base controllers and some third-party libraries.
-|
-*/
-function __autoload($class)
-{
-    if(strpos($class, 'CI_') !== 0)
-    {
-        @include_once( APPPATH . 'core/'. $class . EXT );
-    }
-}
 /*
-This config variable is to set the time zone of this system, the system will
-use the setting to create DateTime objects.
+Set the time zone for the web ui.
 */
 $config['time_zone'] = 'Asia/Taipei';
