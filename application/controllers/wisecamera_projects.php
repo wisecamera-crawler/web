@@ -719,7 +719,8 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
         if ($platform=='') {
             $errMsg .='無法辨認專案網址平台'.PHP_EOL;
         }
-        $result = $this->get_where('project', array('project_id'=>$project_id));
+        $query = $this->db->get_where('project', array('project_id'=>$project_id));
+        $result = $query->result_array();
         if (sizeof($result)!=0) {
             $errMsg .='已有專案代碼： '.$project_id.' 在系統中';
         }
