@@ -44,6 +44,7 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
         parent::__construct();
         $this->load->model('wisecamera_logmodel', 'logModel');
         $this->load->model('wisecamera_projectmodel', 'projectModel');
+        $this->load->model('wisecamera_schedulemodel', 'scheduleModel');
     }
     /**
      * Projects stripTime
@@ -793,6 +794,29 @@ class Wisecamera_Projects extends Wisecamera_CheckUser
             return;
         }
         $this->db->delete('project', array('project_id'=>$project_id));
+        $query = $this->db->get_where('schedule_group', array('member'=>$project_id));
+        $result = $query->result_array();
+        if (sizeof($result)!=0) {
+            //delete any schedule that only has $project_id as it's member
+            foreach ($result as $group) {
+                //check if any schedule group in the table has the same schedule_id, if not, delete said schedule
+                $q = $this->db->get_where('schedule_group', array('schedule_id'=>$group['schedule_id']));
+                $r = $q->result_array();
+                if (sizeof($r)==1) {
+                    //this means the $project_id is the only project in the schedule
+                    //delete the schedule, if it exists(there is a possibility that it has already been deleted)
+                    $q2 = $this->db->get_where('schedule', array('schedule_id'=>$group['schedule_id']));
+                    $r2 = $q2->result_array();
+                    if (sizeof($r2)>0) {
+                        $content = $this->scheduleModel->getScheduleDataString($group['schedule_id']);
+                        $result = $this->scheduleModel->deleteSchedule($group['schedule_id']);
+                        if ($result['errorMessage']==='') {
+                            $this->logModel->logDeleteSchedule($group['schedule_id'], $content);
+                        }
+                    }
+                }
+            }
+        }
         $this->db->delete('schedule_group', array('member'=>$project_id));
         $this->logModel->logDeleteProject($project_id);
         $this->replyWithJSON($response);
