@@ -231,7 +231,7 @@ function plottrendgraph(id, xlabel, ylabel, data, maxshow, chartTitle) {
   data.sort(function(a, b) {
     var dateA = a[0];
     var dateB = b[0];
-    return dateA.localeCompare(dateB);
+    return dateB.localeCompare(dateA);
   });
   if (maxshow != 'all') {
     if (data.length > parseInt(maxshow)) {
