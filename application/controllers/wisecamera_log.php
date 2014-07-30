@@ -168,15 +168,96 @@ class Wisecamera_Log extends Wisecamera_CheckUser
         $query = $this->db->get();
         $result = $query->result_array();
 
+//	var_dump($result);
+
         for ($a=0; $a < sizeof($result); $a++) {
             $arrangedData[$a]["prjID"]=$result[$a]["project_id"];
             $arrangedData[$a]["prjName"]=$result[$a]["name"];
             $arrangedData[$a]["prjExeST"]=$result[$a]["starttime"];
-            $arrangedData[$a]["prjExeResult"]=$result[$a]["status"];
-            $arrangedData[$a]["prjExeResultA"]=$result[$a]["wiki"];
+		$arrangedData[$a]["prjExeResultA"]="";
+		if($result[$a]["status"] == "fail"){
+	            $arrangedData[$a]["prjExeResult"]="失敗";
+			if($result[$a]["wiki"] != "no_change" && $result[$a]["wiki"] != "success_update"){
+				if($result[$a]["wiki"] == "cannot_get_data"){
+					$arrangedData[$a]["prjExeResultA"] .="無法取得Wiki資料頁面, ";
+				}
+				else if($result[$a]["wiki"] == "proxy_error"){
+					$arrangedData[$a]["prjExeResultA"] .="取得Wiki資料頁面時,代理伺服器錯誤, ";
+				}
+				else if($result[$a]["wiki"] == "can_not_resolve"){
+					$arrangedData[$a]["prjExeResultA"] .="解析不到Wiki內容, ";
+				}
+				else if($result[$a]["wiki"] == "time_out"){
+					$arrangedData[$a]["prjExeResultA"] .="取得Wiki資料頁面時超過檢索時間, ";
+				}
+				else{
+					 $arrangedData[$a]["prjExeResultA"] .="程式錯誤";
+				}
+			}
+		  	if($result[$a]["vcs"] != "no_change" && $result[$a]["vcs"] != "success_update"){
+                                if($result[$a]["vcs"] == "cannot_get_data"){
+                                        $arrangedData[$a]["prjExeResultA"] .="無法取得VCS資料頁面, ";
+                                }
+                                else if($result[$a]["vcs"] == "proxy_error"){
+                                        $arrangedData[$a]["prjExeResultA"] .="取得VCS資料頁面時,代理伺服器錯誤, ";
+                                }
+                                else if($result[$a]["vcs"] == "can_not_resolve"){
+                                        $arrangedData[$a]["prjExeResultA"] .="解析不到VCS內容, ";
+                                }
+                                else if($result[$a]["vcs"] == "time_out"){
+                                        $arrangedData[$a]["prjExeResultA"] .="取得VCS資料頁面時超過檢索時間, ";
+                                }
+                                else{
+                                         $arrangedData[$a]["prjExeResultA"] .="程式錯誤";
+                                }
+			}	
+			if($result[$a]["issue"] != "no_change" && $result[$a]["issue"] != "success_update"){
+                                if($result[$a]["issue"] == "cannot_get_data"){
+                                        $arrangedData[$a]["prjExeResultA"] .="無法取得issue tracker資料頁面, ";
+                                }
+                                else if($result[$a]["issue"] == "proxy_error"){
+                                        $arrangedData[$a]["prjExeResultA"] .="取得issue tracker資料頁面時,代理伺服器錯誤, ";
+                                }
+                                else if($result[$a]["issue"] == "can_not_resolve"){
+                                        $arrangedData[$a]["prjExeResultA"] .="解析不到issue tracker內容, ";
+                                }
+                                else if($result[$a]["issue"] == "time_out"){
+                                        $arrangedData[$a]["prjExeResultA"] .="取得issue tracker資料頁面時超過檢索時間, ";
+                                }
+                                else{
+                                         $arrangedData[$a]["prjExeResultA"] .="程式錯誤";
+                                }
+			}	
+			if($result[$a]["download"] != "no_change" && $result[$a]["download"] != "success_update"){
+                                if($result[$a]["download"] == "cannot_get_data"){
+                                        $arrangedData[$a]["prjExeResultA"] .="無法取得Downloads資料頁面, ";
+                                }
+                                else if($result[$a]["download"] == "proxy_error"){
+                                        $arrangedData[$a]["prjExeResultA"] .="取得Downloads資料頁面時,代理伺服器錯誤, ";
+                                }
+                                else if($result[$a]["download"] == "can_not_resolve"){
+                                        $arrangedData[$a]["prjExeResultA"] .="解析不到Downloads內容, ";
+                                }
+                                else if($result[$a]["download"] == "time_out"){
+                                        $arrangedData[$a]["prjExeResultA"] .="取得Downloads資料頁面時超過檢索時間, ";
+                                }
+                                else{
+                                         $arrangedData[$a]["prjExeResultA"] .="程式錯誤";
+                                }
+			}
+				
+                                         $arrangedData[$a]["prjExeResultA"] = substr( $arrangedData[$a]["prjExeResultA"],0, strlen ($arrangedData[$a]["prjExeResultA"])-2);
+		}else if($result[$a]["status"] == "no_change"){
+		    $arrangedData[$a]["prjExeResult"]="成功";
+		    $arrangedData[$a]["prjExeResultA"]="資料無異動";
+		}else if($result[$a]["status"] == "success_update"){
+		    $arrangedData[$a]["prjExeResult"]="成功";
+		    $arrangedData[$a]["prjExeResultA"]="資料異動";
+		}
             $arrangedData[$a]["prjExeET"]=$result[$a]["endtime"];
         }
         $data=$arrangedData;
+//	var_dump($data);
         echo json_encode($data);
 /*
         $query = $this->db->query(
