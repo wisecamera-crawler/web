@@ -182,13 +182,13 @@ class Wisecamera_Log extends Wisecamera_CheckUser
 					$arrangedData[$a]["prjExeResultA"] .="無法取得Wiki資料頁面, ";
 				}
 				else if($result[$a]["wiki"] == "proxy_error"){
-					$arrangedData[$a]["prjExeResultA"] .="取得Wiki資料頁面時,代理伺服器錯誤, ";
+					$arrangedData[$a]["prjExeResultA"] ="no_proxy  ";
 				}
 				else if($result[$a]["wiki"] == "can_not_resolve"){
 					$arrangedData[$a]["prjExeResultA"] .="解析不到Wiki內容, ";
 				}
 				else if($result[$a]["wiki"] == "time_out"){
-					$arrangedData[$a]["prjExeResultA"] .="取得Wiki資料頁面時超過檢索時間, ";
+					$arrangedData[$a]["prjExeResultA"] ="Time_Out  ";
 				}
 				else{
 					 $arrangedData[$a]["prjExeResultA"] .="程式錯誤";
@@ -199,13 +199,10 @@ class Wisecamera_Log extends Wisecamera_CheckUser
                                         $arrangedData[$a]["prjExeResultA"] .="無法取得VCS資料頁面, ";
                                 }
                                 else if($result[$a]["vcs"] == "proxy_error"){
-                                        $arrangedData[$a]["prjExeResultA"] .="取得VCS資料頁面時,代理伺服器錯誤, ";
+                                        $arrangedData[$a]["prjExeResultA"] .="";
                                 }
                                 else if($result[$a]["vcs"] == "can_not_resolve"){
                                         $arrangedData[$a]["prjExeResultA"] .="解析不到VCS內容, ";
-                                }
-                                else if($result[$a]["vcs"] == "time_out"){
-                                        $arrangedData[$a]["prjExeResultA"] .="取得VCS資料頁面時超過檢索時間, ";
                                 }
                                 else{
                                          $arrangedData[$a]["prjExeResultA"] .="程式錯誤";
@@ -216,13 +213,10 @@ class Wisecamera_Log extends Wisecamera_CheckUser
                                         $arrangedData[$a]["prjExeResultA"] .="無法取得issue tracker資料頁面, ";
                                 }
                                 else if($result[$a]["issue"] == "proxy_error"){
-                                        $arrangedData[$a]["prjExeResultA"] .="取得issue tracker資料頁面時,代理伺服器錯誤, ";
+                                        $arrangedData[$a]["prjExeResultA"] .="";
                                 }
                                 else if($result[$a]["issue"] == "can_not_resolve"){
                                         $arrangedData[$a]["prjExeResultA"] .="解析不到issue tracker內容, ";
-                                }
-                                else if($result[$a]["issue"] == "time_out"){
-                                        $arrangedData[$a]["prjExeResultA"] .="取得issue tracker資料頁面時超過檢索時間, ";
                                 }
                                 else{
                                          $arrangedData[$a]["prjExeResultA"] .="程式錯誤";
@@ -233,13 +227,10 @@ class Wisecamera_Log extends Wisecamera_CheckUser
                                         $arrangedData[$a]["prjExeResultA"] .="無法取得Downloads資料頁面, ";
                                 }
                                 else if($result[$a]["download"] == "proxy_error"){
-                                        $arrangedData[$a]["prjExeResultA"] .="取得Downloads資料頁面時,代理伺服器錯誤, ";
+                                        $arrangedData[$a]["prjExeResultA"] .="";
                                 }
                                 else if($result[$a]["download"] == "can_not_resolve"){
                                         $arrangedData[$a]["prjExeResultA"] .="解析不到Downloads內容, ";
-                                }
-                                else if($result[$a]["download"] == "time_out"){
-                                        $arrangedData[$a]["prjExeResultA"] .="取得Downloads資料頁面時超過檢索時間, ";
                                 }
                                 else{
                                          $arrangedData[$a]["prjExeResultA"] .="程式錯誤";
