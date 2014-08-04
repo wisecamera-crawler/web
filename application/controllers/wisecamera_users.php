@@ -164,7 +164,41 @@ class Wisecamera_Users extends CI_Controller
         }
     }
     /**
-     * Users login
+     * Users googlecode
+     *
+     * This function is used when Google redirects to us with the authorization
+     * code, we need to exchange a id token with the code, this is done in the
+     * client->authenticate($code) line.
+     *
+     * @return none
+     *
+     * @author Kai Yuen <keeperkai@msn.com>
+     * @version 1.0
+    */
+    public function googlecode(){
+        $code = $this->input->get('code');
+        require_once 'Google/Client.php';
+        $client = new Google_Client();
+        $client_id = $this->config->item('google_client_id');
+        $client_secret = $this->config->item('google_client_secret');
+        $redirect_uri = base_url().'index.php/users/googlecode';
+        $client->setClientId($client_id);
+        $client->setClientSecret($client_secret);
+        $client->setRedirectUri($redirect_uri);
+        $client->authenticate($code);
+        $id_token = $client->verifyIdToken()->getAttributes();
+        $mail = $id_token['payload']['email'];
+        $session_data = array('ACCOUNT' => "$mail");
+        $this->session->set_userdata($session_data);
+        $this->userModel->registerUser("$mail", '', "$mail", 1);
+        $this->logModel->extendUserLogin("$mail");
+        header(
+            'Location: ' . base_url(). 'index.php/pages/view/searchtable'
+        );
+        
+    }
+    /**
+     * Users googlelogin
      *
      * This function will login a user with their google open id and put
      * their account name(their google email) into the session.
@@ -180,34 +214,20 @@ class Wisecamera_Users extends CI_Controller
      */
     public function googlelogin()
     {
-        require 'application/third_party/openid.php';
-        $openid = new LightOpenID(base_url());
-        if (!$openid->mode) {
-            $openid->identity = 'https://www.google.com/accounts/o8/id';
-            $openid->required = array(
-                'contact/email', 'namePerson/first', 'namePerson/last'
-            );
-            header('Location: ' . $openid->authUrl());
-        } else {
-            if ($openid->validate() == true) {
-                $user_data = $openid->getAttributes();
-                $mail = $user_data["contact/email"];
-                $session_data = array('ACCOUNT' => "$mail");
-                $this->session->set_userdata($session_data);
-                $this->userModel->registerUser("$mail", '', "$mail", 1);
-                $this->logModel->extendUserLogin("$mail");
-                header(
-                    'Location: ' . base_url(). 'index.php/pages/view/searchtable'
-                );
-            } else {
-                header('Content-Type: text/html');
-                echo '<html><head></head>
-                    <body>Google Open ID 有些問題，請重試。
-                    </body></html>';
-            }
-        }
+        require_once 'Google/Client.php';
+        $client_id = $this->config->item('google_client_id');
+        $client_secret = $this->config->item('google_client_secret');
+        $redirect_uri = base_url().'index.php/users/googlecode';
+        
+        $client = new Google_Client();
+        $client->setClientId($client_id);
+        $client->setClientSecret($client_secret);
+        $client->setRedirectUri($redirect_uri);
+        $client->addScope("email");
+        $authUrl = $client->createAuthUrl();
+        header('Location: '.$authUrl);
     }
-    /**
+     /**
      * Users register
      *
      * This function will register a new user account in the system. The

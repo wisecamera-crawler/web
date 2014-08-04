@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://60.245.28.90/codeigniter/';
+$config['base_url']	= 'http://pelican.iis.sinica.edu.tw/web/';
 
 /*
 |--------------------------------------------------------------------------
@@ -361,3 +361,8 @@ $config['proxy_ips'] = '';
 Set the time zone for the web ui.
 */
 $config['time_zone'] = 'Asia/Taipei';
+/*
+Set google id client information.
+*/
+$config['google_client_id'] = '332488622544-a4aoqg8pti2kk21d938jv20bos4899q0.apps.googleusercontent.com';
+$config['google_client_secret'] = 'AeJ-nTkdDzDkf8cUrSlMwy_d';
