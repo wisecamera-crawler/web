@@ -174,119 +174,107 @@ class Wisecamera_Log extends Wisecamera_CheckUser
             $arrangedData[$a]["prjID"]=$result[$a]["project_id"];
             $arrangedData[$a]["prjName"]=$result[$a]["name"];
             $arrangedData[$a]["prjExeST"]=$result[$a]["starttime"];
-		$arrangedData[$a]["prjExeResultA"]="";
-		if($result[$a]["status"] == "fail"){
-	            $arrangedData[$a]["prjExeResult"]="失敗";
-			if($result[$a]["wiki"] != "no_change" && $result[$a]["wiki"] != "success_update"){
-				if($result[$a]["wiki"] == "cannot_get_data"){
-					$arrangedData[$a]["prjExeResultA"] .="無法取得Wiki資料頁面, ";
-				}
-				else if($result[$a]["wiki"] == "proxy_error"){
-					$arrangedData[$a]["prjExeResultA"] ="代理伺服器錯誤  ";
-				}
-				else if($result[$a]["wiki"] == "can_not_resolve"){
-					$arrangedData[$a]["prjExeResultA"] .="解析不到Wiki內容, ";
-				}
-				else if($result[$a]["wiki"] == "time_out"){
-					$arrangedData[$a]["prjExeResultA"] ="超過檢索時間  ";
-				}
-				else{
-					 $arrangedData[$a]["prjExeResultA"] .="程式錯誤";
-				}
-			}
-		  	if($result[$a]["vcs"] != "no_change" && $result[$a]["vcs"] != "success_update"){
-                                if($result[$a]["vcs"] == "cannot_get_data"){
-                                        $arrangedData[$a]["prjExeResultA"] .="無法取得VCS資料頁面, ";
-                                }
-                                else if($result[$a]["vcs"] == "proxy_error"){
-                                        $arrangedData[$a]["prjExeResultA"] .="";
-                                }
-                                else if($result[$a]["vcs"] == "can_not_resolve"){
-                                        $arrangedData[$a]["prjExeResultA"] .="解析不到VCS內容, ";
-                                }
-                                else{
-                                         $arrangedData[$a]["prjExeResultA"] .="程式錯誤";
-                                }
-			}	
-			if($result[$a]["issue"] != "no_change" && $result[$a]["issue"] != "success_update"){
-                                if($result[$a]["issue"] == "cannot_get_data"){
-                                        $arrangedData[$a]["prjExeResultA"] .="無法取得issue tracker資料頁面, ";
-                                }
-                                else if($result[$a]["issue"] == "proxy_error"){
-                                        $arrangedData[$a]["prjExeResultA"] .="";
-                                }
-                                else if($result[$a]["issue"] == "can_not_resolve"){
-                                        $arrangedData[$a]["prjExeResultA"] .="解析不到issue tracker內容, ";
-                                }
-                                else{
-                                         $arrangedData[$a]["prjExeResultA"] .="程式錯誤";
-                                }
-			}	
-			if($result[$a]["download"] != "no_change" && $result[$a]["download"] != "success_update"){
-                                if($result[$a]["download"] == "cannot_get_data"){
-                                        $arrangedData[$a]["prjExeResultA"] .="無法取得Downloads資料頁面, ";
-                                }
-                                else if($result[$a]["download"] == "proxy_error"){
-                                        $arrangedData[$a]["prjExeResultA"] .="";
-                                }
-                                else if($result[$a]["download"] == "can_not_resolve"){
-                                        $arrangedData[$a]["prjExeResultA"] .="解析不到Downloads內容, ";
-                                }
-                                else{
-                                         $arrangedData[$a]["prjExeResultA"] .="程式錯誤";
-                                }
-			}
-				
-                                         $arrangedData[$a]["prjExeResultA"] = substr( $arrangedData[$a]["prjExeResultA"],0, strlen ($arrangedData[$a]["prjExeResultA"])-2);
-		}else if($result[$a]["status"] == "no_change"){
-		    $arrangedData[$a]["prjExeResult"]="成功";
-		    $arrangedData[$a]["prjExeResultA"]="資料無異動";
-		}else if($result[$a]["status"] == "success_update"){
-		    $arrangedData[$a]["prjExeResult"]="成功";
-		    $arrangedData[$a]["prjExeResultA"]="資料異動";
-		}
-		else if($result[$a]["status"] == "no_proxy"){
-                    $arrangedData[$a]["prjExeResult"]="失敗";
-                    $arrangedData[$a]["prjExeResultA"]="無可用的代理伺服器";
+            $arrangedData[$a]["prjExeResultA"]="";
+            if ($result[$a]["status"] == "fail") {
+                $arrangedData[$a]["prjExeResult"]="失敗";
+                if ($result[$a]["wiki"] != "no_change" && $result[$a]["wiki"] != "success_update") {
+                    if ($result[$a]["wiki"] == "cannot_get_data") {
+                        $arrangedData[$a]["prjExeResultA"] .="無法取得Wiki資料頁面, ";
+                    } elseif ($result[$a]["wiki"] == "proxy_error") {
+                        $arrangedData[$a]["prjExeResultA"] ="代理伺服器錯誤  ";
+                    } elseif ($result[$a]["wiki"] == "can_not_resolve") {
+                        $arrangedData[$a]["prjExeResultA"] .="解析不到Wiki內容, ";
+                    } elseif ($result[$a]["wiki"] == "time_out") {
+                        $arrangedData[$a]["prjExeResultA"] ="超過檢索時間  ";
+                    } else {
+                        $arrangedData[$a]["prjExeResultA"] .="程式錯誤";
+                    }
                 }
-		else if($result[$a]["status"] == "time_out"){
-                    $arrangedData[$a]["prjExeResult"]="失敗";
-                    $arrangedData[$a]["prjExeResultA"]="超過檢索時間";
+                if ($result[$a]["vcs"] != "no_change" && $result[$a]["vcs"] != "success_update") {
+                    if ($result[$a]["vcs"] == "cannot_get_data") {
+                        $arrangedData[$a]["prjExeResultA"] .="無法取得VCS資料頁面, ";
+                    } elseif ($result[$a]["vcs"] == "proxy_error") {
+                        $arrangedData[$a]["prjExeResultA"] .="";
+                    } elseif ($result[$a]["vcs"] == "can_not_resolve") {
+                        $arrangedData[$a]["prjExeResultA"] .="解析不到VCS內容, ";
+                    } else {
+                        $arrangedData[$a]["prjExeResultA"] .="程式錯誤";
+                    }
                 }
-		else{
-                    $arrangedData[$a]["prjExeResult"]="沒定義到";
-                    $arrangedData[$a]["prjExeResultA"]="沒定義到";
+                if ($result[$a]["issue"] != "no_change" && $result[$a]["issue"] != "success_update") {
+                    if ($result[$a]["issue"] == "cannot_get_data") {
+                        $arrangedData[$a]["prjExeResultA"] .="無法取得issue tracker資料頁面, ";
+                    } elseif ($result[$a]["issue"] == "proxy_error") {
+                        $arrangedData[$a]["prjExeResultA"] .="";
+                    } elseif ($result[$a]["issue"] == "can_not_resolve") {
+                        $arrangedData[$a]["prjExeResultA"] .="解析不到issue tracker內容, ";
+                    } else {
+                        $arrangedData[$a]["prjExeResultA"] .="程式錯誤";
+                    }
                 }
+                if ($result[$a]["download"] != "no_change" && $result[$a]["download"] != "success_update") {
+                    if ($result[$a]["download"] == "cannot_get_data") {
+                        $arrangedData[$a]["prjExeResultA"] .="無法取得Downloads資料頁面, ";
+                    } elseif ($result[$a]["download"] == "proxy_error") {
+                        $arrangedData[$a]["prjExeResultA"] .="";
+                    } elseif ($result[$a]["download"] == "can_not_resolve") {
+                        $arrangedData[$a]["prjExeResultA"] .="解析不到Downloads內容, ";
+                    } else {
+                        $arrangedData[$a]["prjExeResultA"] .="程式錯誤";
+                    }
+                }
+
+                $arrangedData[$a]["prjExeResultA"] = substr(
+                    $arrangedData[$a]["prjExeResultA"],
+                    0,
+                    strlen($arrangedData[$a]["prjExeResultA"])-2
+                );
+            } elseif ($result[$a]["status"] == "no_change") {
+                $arrangedData[$a]["prjExeResult"]="成功";
+                $arrangedData[$a]["prjExeResultA"]="資料無異動";
+            } elseif ($result[$a]["status"] == "success_update") {
+                $arrangedData[$a]["prjExeResult"]="成功";
+                $arrangedData[$a]["prjExeResultA"]="資料異動";
+            } elseif ($result[$a]["status"] == "no_proxy") {
+                $arrangedData[$a]["prjExeResult"]="失敗";
+                $arrangedData[$a]["prjExeResultA"]="無可用的代理伺服器";
+            } elseif ($result[$a]["status"] == "time_out") {
+                $arrangedData[$a]["prjExeResult"]="失敗";
+                $arrangedData[$a]["prjExeResultA"]="超過檢索時間";
+            } else {
+                $arrangedData[$a]["prjExeResult"]="沒定義到";
+                $arrangedData[$a]["prjExeResultA"]="沒定義到";
+            }
             $arrangedData[$a]["prjExeET"]=$result[$a]["endtime"];
         }
         $data=$arrangedData;
-//	var_dump($data);
+      //	var_dump($data);
         echo json_encode($data);
-/*
-        $query = $this->db->query(
-            "SELECT `timestamp`, `user_id`,`ip`,`action`
-            FROM `log` WHERE `type`='schedule' ORDER BY `timestamp` ASC"
-        );
-        $result = $query->result_array();
-        $dataCount =0;
-        for ($a=0; $a < sizeof($result); $a++) {
-            $_array = explode(",", $result[$a]["action"]);
-            if ($_array[0] == "scheEx") {
-                $tempResult[$dataCount++] = $result[$a];
-            }
-        }
-        for ($a=0; $a < sizeof($tempResult); $a++) {
-            $_array = explode(",", $tempResult[$a]["action"]);
-            $arrangedData[$a]["prjID"]=$_array[1];
-            $arrangedData[$a]["prjName"]=$_array[2];
-            $arrangedData[$a]["prjExeST"]=$_array[3];
-            $arrangedData[$a]["prjExeResult"]=$_array[4];
-            $arrangedData[$a]["prjExeResultA"]=$_array[5];
-            $arrangedData[$a]["prjExeET"]=$_array[6];
-        }
-        $data=$arrangedData;
-        echo json_encode($data);
-*/
+    /*
+       $query = $this->db->query(
+       "SELECT `timestamp`, `user_id`,`ip`,`action`
+       FROM `log` WHERE `type`='schedule' ORDER BY `timestamp` ASC"
+       );
+       $result = $query->result_array();
+       $dataCount =0;
+       for ($a=0; $a < sizeof($result); $a++) {
+       $_array = explode(",", $result[$a]["action"]);
+       if ($_array[0] == "scheEx") {
+       $tempResult[$dataCount++] = $result[$a];
+       }
+       }
+       for ($a=0; $a < sizeof($tempResult); $a++) {
+       $_array = explode(",", $tempResult[$a]["action"]);
+       $arrangedData[$a]["prjID"]=$_array[1];
+       $arrangedData[$a]["prjName"]=$_array[2];
+       $arrangedData[$a]["prjExeST"]=$_array[3];
+       $arrangedData[$a]["prjExeResult"]=$_array[4];
+       $arrangedData[$a]["prjExeResultA"]=$_array[5];
+       $arrangedData[$a]["prjExeET"]=$_array[6];
+       }
+       $data=$arrangedData;
+       echo json_encode($data);
+     */
     }
     /**
      * get logs related searching
