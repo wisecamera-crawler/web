@@ -245,6 +245,18 @@ class Wisecamera_Log extends Wisecamera_CheckUser
 		    $arrangedData[$a]["prjExeResult"]="成功";
 		    $arrangedData[$a]["prjExeResultA"]="資料異動";
 		}
+		else if($result[$a]["status"] == "no_proxy"){
+                    $arrangedData[$a]["prjExeResult"]="失敗";
+                    $arrangedData[$a]["prjExeResultA"]="無可用的代理伺服器";
+                }
+		else if($result[$a]["status"] == "time_out"){
+                    $arrangedData[$a]["prjExeResult"]="失敗";
+                    $arrangedData[$a]["prjExeResultA"]="超過檢索時間";
+                }
+		else{
+                    $arrangedData[$a]["prjExeResult"]="沒定義到";
+                    $arrangedData[$a]["prjExeResultA"]="沒定義到";
+                }
             $arrangedData[$a]["prjExeET"]=$result[$a]["endtime"];
         }
         $data=$arrangedData;
