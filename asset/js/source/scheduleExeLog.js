@@ -17,6 +17,9 @@ $(document).ready(function() {
 
       for (var i = 0; i < data.length; i++) {
         //                      alert( data[i].user_id );
+	if(data[i].prjExeResultA.length > 20){
+		data[i].prjExeResultA= "1111111";
+	}
         $('#scheduleExeLog').append('<tr>' +
             '<td>' + data[i].prjID + '</td>' +
             '<td>' + data[i].prjName + '</td>' +

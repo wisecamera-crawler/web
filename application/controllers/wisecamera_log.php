@@ -182,13 +182,13 @@ class Wisecamera_Log extends Wisecamera_CheckUser
 					$arrangedData[$a]["prjExeResultA"] .="無法取得Wiki資料頁面, ";
 				}
 				else if($result[$a]["wiki"] == "proxy_error"){
-					$arrangedData[$a]["prjExeResultA"] ="no_proxy  ";
+					$arrangedData[$a]["prjExeResultA"] ="代理伺服器錯誤  ";
 				}
 				else if($result[$a]["wiki"] == "can_not_resolve"){
 					$arrangedData[$a]["prjExeResultA"] .="解析不到Wiki內容, ";
 				}
 				else if($result[$a]["wiki"] == "time_out"){
-					$arrangedData[$a]["prjExeResultA"] ="Time_Out  ";
+					$arrangedData[$a]["prjExeResultA"] ="超過檢索時間  ";
 				}
 				else{
 					 $arrangedData[$a]["prjExeResultA"] .="程式錯誤";
