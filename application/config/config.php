@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://pelican.iis.sinica.edu.tw/web/';
+$config['base_url']	= 'http://60.245.28.90/web/';
 
 /*
 |--------------------------------------------------------------------------

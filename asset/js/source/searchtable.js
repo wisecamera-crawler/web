@@ -238,8 +238,24 @@ function plottrendgraph(id, xlabel, ylabel, data, maxshow, chartTitle) {
       data = data.splice(0, parseInt(maxshow));
     }
   }
-
-
+  var dupRemovedData = [];
+  for (var i = 0; i < data.length; ++i) {
+    var num = data[i][1];
+    var consecutiveEnd = -1;
+    dupRemovedData.push(data[i]);
+    for (var j = i + 1; j < data.length; ++j) {
+      if (data[j][1] == num) {
+        consecutiveEnd = j;
+      } else {
+        break;
+      }
+    }
+    if (consecutiveEnd >= 0) {
+      dupRemovedData.push(data[consecutiveEnd]);
+      i = consecutiveEnd;
+    }
+  }
+  data = dupRemovedData;
   var plot1 = $.jqplot(id, [data], {
     title: chartTitle,
     axes: {
