@@ -1,74 +1,93 @@
 <?php
-/**
- * A controller for log related page
- *
- * PHP version 5
- *
- * LICENSE : none
- *
- * @category Controller
- * @package  Wisecamera
- * @author   Charlie Huang <huangckqq22@gmail.com>
- * @license  none <none>
- * @version  GIT: <git_id>
- * @link     none
- */
-class Wisecamera_Export extends Wisecamera_CheckUser
+
+
+include "Classes/PHPExcel.php";
+require_once "Classes/PHPExcel.php";
+require_once "Classes/PHPExcel/IOFactory.php";
+
+
+class Wisecamera_Export extends Wisecamera_CheckUser 
 {
-    /**
-     * Obtain user list
-     *
-     * This function is to get user list in DB
-     * As a CI controller, the access path is :
-     *      <baseurl>/index.php/log/getUsers
-     * If it success, it will return list of user's id in DB
-     *
-     *
-     * @author Charlie Huang <huangckqq22@gmail.com>
-     * @version 1.0
-     */
-    public function exportAllDB()
-    {
-        $data="";
 
-        $conn = mysql_connect("localhost", "root", "openfoundry");
-        $db = mysql_select_db("NSC", $conn);
 
-        $sql = "SELECT * FROM email";
-        $rec = mysql_query($sql) or die (mysql_error());
+	public function setData()
+	{
 
-        $num_fields = mysql_num_fields($rec);
+		header("Content-type: application/json");
+		error_reporting(E_ALL);
+		ini_set('display_errors', 1);
+		$json = $this->input->post('content');
+//		$json = '{"filter":{"platform":"github,openfoundry","projectName":"Android Sliding Up Panel Demo","codeName":"gh.umano.AndroidSlidingUpPanel","type":"VCS,network,...","year":"102,103"},"data":[[["zz","yy","xx"]],[["zz","yy","xx"]]]}';
 
-        $header = "";
-        for ($i = 0; $i < $num_fields; $i++) {
-            $header .= mysql_field_name($rec, $i)."\\t";
-        }
 
-        while ($row = mysql_fetch_row($rec)) {
-            $line = '';
-            foreach ($row as $value) {
-                if ((!isset($value)) || ($value == "")) {
-                    $value = "\\t";
-                } else {
-                    $value = str_replace('"', '""', $value);
-                    $value = '"' . $value . '"' . "\\t";
-                }
-                $line .= $value;
-            }
-            $data .= trim($line) . "\\n";
-        }
+		//$json = '{"filter":{"year":"102,103","platform":"github, openfoundry","projectName":"Android Sliding Up Panel Demo","codeName":"gh.umano.AndroSlidingUpPanel","type":"VCS, network"},"data":[["zz","yy","xx"],["qq","yy","xx"]]}';
 
-        //    $data = str_replace("\\r" , "" , $data);
 
-        if ($data == "") {
-            $data = "\\n No Record Found!\n";
-        }
+//		var_dump($json);
+//		var_dump(json_decode($json));
+		//var_dump(json_decode($json, true));
 
-        header("Content-type: application/octet-stream");
-        header("Content-Disposition: attachment; filename=reports.xls");
-        header("Pragma: no-cache");
-        header("Expires: 0");
-        print "$header\\n$data";
+//		$jsonArrayTemp = json_decode($json, true);
+		$filterArray = $json["filter"];
+		$data = $json["data"];
 
-    }
+
+//		var_dump($data);
+//		var_dump($filterArray);
+
+
+
+		// phpinfo();
+		$objPHPExcel = new PHPExcel();
+		$objPHPExcel->setActiveSheetIndex(0);
+
+		$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(0,1,"Filter:");
+		$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(0,2,"年度");
+		$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(1,2,$filterArray["year"]);
+		$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(0,3,"類別");
+		$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(1,3,$filterArray["type"]);
+		$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(0,4,"代碼");
+		$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(1,4,$filterArray["codeName"]);
+		$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(0,5,"專案");
+		$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(1,5,$filterArray["projectName"]);
+		$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(0,6,"平台");
+		$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(1,6,$filterArray["platform"]);
+
+
+
+			
+		for($i=0; $i<sizeof($data);$i++){
+			for($j=0;$j<sizeof($data[0]);$j++){
+				$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($j,$i+8,$data[$i][$j]);
+
+			}
+		}
+
+
+		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+
+		$time = time();
+		$filename = "export_".$this->session->userdata('ACCOUNT')."_".$time.".xlsx";
+		$objWriter->save($filename);
+	
+		echo json_encode($arr=array('filename'=>$filename));
+
+
+	}
+
+
+	public function getFile($filename){
+
+		$file_url = base_url().$filename;
+		header('Content-Type: application/octet-stream');
+		header("Content-Transfer-Encoding: Binary"); 
+		header("Content-disposition: attachment; filename=\"" . basename($file_url) . "\""); 
+		readfile($file_url); // do the double-download-dance (dirty but worky)
+		unlink($filename);	
+
+
+
+	}
+
 }
+

@@ -53,6 +53,8 @@ $route['proxy/(:any)'] = "wisecamera_proxy/$1";
 $route['schedules/(:any)'] = "wisecamera_schedules/$1";
 $route['email/(:any)'] = "wisecamera_email/$1";
 $route['users/(:any)'] = "wisecamera_users/$1";
+$route['export/(:any)'] = "wisecamera_export/$1";
+$route['export/(:any)/(:any)'] = "wisecamera_export/$1/$2";
 $route['404_override'] = '';
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

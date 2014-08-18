@@ -4,6 +4,81 @@
 
 
 /**
+ * This function is used to export the current settings and table data
+ * to the excel exporter.
+ */
+function exportToExcel() {
+  var postData = {};
+  var filter = {};
+  var tabledata = [];
+  //filters
+  //get years
+  filter.year = '';
+  $('#filteryearwindow input:checked').each(function() {
+    //filter.year.push($(this).val());
+    filter.year += ',' + $(this).val();
+  });
+  filter.year = filter.year.substring(1);
+  //get type
+  filter.type = [];
+  $('#filterclasswindow input:checked').each(function() {
+    //filter.type.push($(this).val());
+    filter.type += ',' + $(this).val();
+  });
+  filter.type = filter.type.substring(1);
+  //get id
+  filter.codeName = $('#idtb').val();
+  //get project name
+  filter.projectName = $('#projectnametb').val();
+  //get platform
+  filter.platform = [];
+  $('#filterplatformwindow input:checked').each(function() {
+    //filter.platform.push($(this).val());
+    filter.platform += ',' + $(this).val();
+  });
+  filter.platform = filter.platform.substring(1);
+  //data
+  $('#projecttable tr').each(function() {
+    var rowdata = [];
+    $(this).find('th:visible').each(function() {
+      rowdata.push(
+          $(this).text().replace('\r\n', '').replace('\n', '').replace('\r', '')
+      );
+    });
+    $(this).find('td:visible').each(function() {
+      rowdata.push(
+          $(this).text().replace('\r\n', '').replace('\n', '').replace('\r', '')
+      );
+    });
+    if (rowdata.length > 0) {
+      tabledata.push(rowdata);
+    }
+  });
+  //combine data
+  postData.filter = filter;
+  postData.data = tabledata;
+  var filename = '';
+  $.ajax({
+    url: '../../' +
+        'export/setdata',
+    type: 'POST',
+    data: {'content' : postData},
+    async: false,
+
+    success: function(data) {
+      filename = data.filename;
+    },
+    error: function(xhr, status, error) {
+      var err = xhr.responseText;
+      alert(err);
+      alert(error);
+    }
+  });
+  window.open('../../' + 'export/getfile/' + filename);
+}
+
+
+/**
  * This function is used to get the project from the id of the dom element.
  * @param {DomElement} row The dom element of the row.
  * @param {Array} projects The projects array loaded on document ready.

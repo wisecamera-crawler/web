@@ -9,6 +9,7 @@
         <th>專案</th>
         <th>平台</th>
         <th>顯示欄位</th>
+        <th>匯出至excel</th>
       </tr>
       <tr>
         <td>
@@ -29,6 +30,9 @@
         </td>
         <td>
           <button id="selectcolumnbutton" onclick="selectColumn();">選擇欄位</button>
+        </td>
+        <td>
+          <button onclick="exportToExcel();">匯出</button>
         </td>
       </tr>
     </table>
