@@ -13,10 +13,11 @@ class Wisecamera_Export extends Wisecamera_CheckUser
 	public function setData()
 	{
 
-		header("Content-type: application/json");
-		error_reporting(E_ALL);
-		ini_set('display_errors', 1);
-		$json = $this->input->post('content');
+		error_reporting(0);
+                header("Content-type: application/json");
+                //error_reporting(E_ALL);
+                //ini_set('display_errors', 1);
+                $json = $this->input->post('content');
 //		$json = '{"filter":{"platform":"github,openfoundry","projectName":"Android Sliding Up Panel Demo","codeName":"gh.umano.AndroidSlidingUpPanel","type":"VCS,network,...","year":"102,103"},"data":[[["zz","yy","xx"]],[["zz","yy","xx"]]]}';
 
 
