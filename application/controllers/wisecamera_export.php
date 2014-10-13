@@ -69,6 +69,7 @@ class Wisecamera_Export extends Wisecamera_CheckUser
 
 		$time = time();
 		$filename = "export_".$this->session->userdata('ACCOUNT')."_".$time.".xlsx";
+		$filename = str_replace('@', '_', $filename);
 		$objWriter->save($filename);
 	
 		echo json_encode($arr=array('filename'=>$filename));
