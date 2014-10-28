@@ -1,71 +1,50 @@
 <?php
 
 
-include "Classes/PHPExcel.php";
-require_once "Classes/PHPExcel.php";
-require_once "Classes/PHPExcel/IOFactory.php";
-
-
 class Wisecamera_Export extends Wisecamera_CheckUser 
 {
 
 
 	public function setData()
 	{
-
-		error_reporting(0);
+               // error_reporting(E_ALL);
+               // ini_set('display_errors', 1);
+		//error_reporting(0);
                 header("Content-type: application/json");
-                //error_reporting(E_ALL);
-                //ini_set('display_errors', 1);
                 $json = $this->input->post('content');
-//		$json = '{"filter":{"platform":"github,openfoundry","projectName":"Android Sliding Up Panel Demo","codeName":"gh.umano.AndroidSlidingUpPanel","type":"VCS,network,...","year":"102,103"},"data":[[["zz","yy","xx"]],[["zz","yy","xx"]]]}';
 
-
-		//$json = '{"filter":{"year":"102,103","platform":"github, openfoundry","projectName":"Android Sliding Up Panel Demo","codeName":"gh.umano.AndroSlidingUpPanel","type":"VCS, network"},"data":[["zz","yy","xx"],["qq","yy","xx"]]}';
-
-
-//		var_dump($json);
-//		var_dump(json_decode($json));
-		//var_dump(json_decode($json, true));
-
-//		$jsonArrayTemp = json_decode($json, true);
+		$this->load->library('phpexcel/Phpexcel');
+		$this->load->library('phpexcel/PHPExcel/IOFactory');
 		$filterArray = $json["filter"];
 		$data = $json["data"];
 
 
-//		var_dump($data);
-//		var_dump($filterArray);
+		$this->phpexcel->setActiveSheetIndex(0);
 
-
-
-		// phpinfo();
-		$objPHPExcel = new PHPExcel();
-		$objPHPExcel->setActiveSheetIndex(0);
-
-		$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(0,1,"Filter:");
-		$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(0,2,"年度");
-		$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(1,2,$filterArray["year"]);
-		$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(0,3,"類別");
-		$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(1,3,$filterArray["type"]);
-		$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(0,4,"代碼");
-		$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(1,4,$filterArray["codeName"]);
-		$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(0,5,"專案");
-		$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(1,5,$filterArray["projectName"]);
-		$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(0,6,"平台");
-		$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(1,6,$filterArray["platform"]);
+		$this->phpexcel->getActiveSheet()->setCellValueByColumnAndRow(0,1,"Filter:");
+		$this->phpexcel->getActiveSheet()->setCellValueByColumnAndRow(0,2,"年度");
+		$this->phpexcel->getActiveSheet()->setCellValueByColumnAndRow(1,2,$filterArray["year"]);
+		$this->phpexcel->getActiveSheet()->setCellValueByColumnAndRow(0,3,"類別");
+		$this->phpexcel->getActiveSheet()->setCellValueByColumnAndRow(1,3,$filterArray["type"]);
+		$this->phpexcel->getActiveSheet()->setCellValueByColumnAndRow(0,4,"代碼");
+		$this->phpexcel->getActiveSheet()->setCellValueByColumnAndRow(1,4,$filterArray["codeName"]);
+		$this->phpexcel->getActiveSheet()->setCellValueByColumnAndRow(0,5,"專案");
+		$this->phpexcel->getActiveSheet()->setCellValueByColumnAndRow(1,5,$filterArray["projectName"]);
+		$this->phpexcel->getActiveSheet()->setCellValueByColumnAndRow(0,6,"平台");
+		$this->phpexcel->getActiveSheet()->setCellValueByColumnAndRow(1,6,$filterArray["platform"]);
 
 
 
 			
 		for($i=0; $i<sizeof($data);$i++){
 			for($j=0;$j<sizeof($data[0]);$j++){
-				$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($j,$i+8,$data[$i][$j]);
+				$this->phpexcel->getActiveSheet()->setCellValueByColumnAndRow($j,$i+8,$data[$i][$j]);
 
 			}
 		}
 
 
-		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+		$objWriter = $this->iofactory->createWriter($this->phpexcel, 'Excel2007');
 
 		$time = time();
 		$filename = "export_".$this->session->userdata('ACCOUNT')."_".$time.".xlsx";
@@ -79,6 +58,7 @@ class Wisecamera_Export extends Wisecamera_CheckUser
 
 
 	public function getFile($filename){
+
 
 		$file_url = base_url().$filename;
 		header('Content-Type: application/octet-stream');
