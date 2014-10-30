@@ -15,7 +15,7 @@ class Wisecamera_Export extends Wisecamera_CheckUser
         $this->load->library('phpexcel/PHPExcel/IOFactory');
         $filterArray = $json["filter"];
         $data = $json["data"];
-
+	date_default_timezone_set('Asia/Taipei');
         $this->phpexcel->setActiveSheetIndex(0);
 
         $this->phpexcel->getActiveSheet()->setCellValueByColumnAndRow(0, 1, "Filter:");
