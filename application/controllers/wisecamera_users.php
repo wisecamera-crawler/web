@@ -175,7 +175,8 @@ class Wisecamera_Users extends CI_Controller
      * @author Kai Yuen <keeperkai@msn.com>
      * @version 1.0
     */
-    public function googlecode(){
+    public function googlecode()
+    {
         $code = $this->input->get('code');
         require_once 'Google/Client.php';
         $client = new Google_Client();
@@ -195,7 +196,7 @@ class Wisecamera_Users extends CI_Controller
         header(
             'Location: ' . base_url(). 'index.php/pages/view/searchtable'
         );
-        
+
     }
     /**
      * Users googlelogin
